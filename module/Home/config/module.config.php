@@ -44,10 +44,20 @@ return array(
             'login' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/login',
+                    'route'    => '/home/login',
                     'defaults' => array(
                         'controller' => 'Home\Controller\Login',
-                        'action'     => 'index',
+                        'action'     => 'login',
+                    ),
+                ),
+            ),
+            'register' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/home/register',
+                    'defaults' => array(
+                        'controller' => 'Home\Controller\Login',
+                        'action'     => 'register',
                     ),
                 ),
             ),

@@ -1,0 +1,14 @@
+
+<h1>注册</h1>
+
+<?php if ($this->error): ?>
+    <p class="error">
+                发生错误,请看下面提示.
+    </p>
+<?php endif;?>
+
+<?php 
+    $form = $this->form;
+    $form->prepare();
+    $form->setAttribute('action', $this->url());
+?>
