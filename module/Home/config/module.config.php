@@ -61,6 +61,16 @@ return array(
                     ),
                 ),
             ),
+            'register_confirm' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/home/register/confirm',
+                    'defaults' => array(
+                        'controller' => 'Home\Controller\Login',
+                        'action'     => 'confirm',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(

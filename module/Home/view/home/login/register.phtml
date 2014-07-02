@@ -10,5 +10,38 @@
 <?php 
     $form = $this->form;
     $form->prepare();
-    $form->setAttribute('action', $this->url());
+    $form->setAttribute('action', $this->url('register'));
+    $form->setAttribute('method', 'post');
+
+    echo $this->form()->openTag($form);
 ?>
+
+<dl class="zend_form">
+<dt><?php echo $this->formLabel($form->get('member_name')); ?></dt>
+<dd><?php 
+echo $this->formElement($form->get('member_name'));
+echo $this->formElementErrors($form->get('member_name'));
+?></dd>
+<dt><?php echo $this->formLabel($form->get('member_email')); ?></dt>
+<dd><?php 
+echo $this->formElement($form->get('member_email'));
+echo $this->formElementErrors($form->get('member_email'));
+?></dd>
+<dt><?php echo $this->formLabel($form->get('member_pwd')); 
+?></dt>
+<dd><?php 
+echo $this->formElement($form->get('member_pwd'));
+echo $this->formElementErrors($form->get('member_pwd'));
+?></dd>
+<dt><?php echo $this->formLabel($form->get('confirm_pwd')); ?></dt>
+<dd><?php 
+echo $this->formElement($form->get('confirm_pwd'));
+echo $this->formElementErrors($form->get('confirm_pwd'));
+?></dd>
+<dd><?php 
+echo $this->formElement($form->get('submit'));
+echo $this->formElementErrors($form->get('submit'));
+?></dd>
+</dl>
+
+<?php echo $this->form()->closeTag($form); ?>
