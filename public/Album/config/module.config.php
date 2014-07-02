@@ -8,17 +8,37 @@
  */
 
 return array(
+    'controllers' => array(
+        'invokables' => array(
+            'Home\Controller\Index' => 'Home\Controller\IndexController',
+            'Home\Controller\Album' => 'Home\Controller\AlbumController'
+        ),
+    ),
     'router' => array(
         'routes' => array(
-            'example_home' => array(
+            'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/example',
+                    'route'    => '/album_index',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
+                        'controller' => 'Home\Controller\Index',
                         'action'     => 'index',
                     ),
                 ),
+            ),
+            'album' => array(
+        	   'type' => 'segment',
+        	   'options' => array(
+            	   'route' => '/album[/][:action][/:id]',
+            	   'constraints' => array(
+            	       'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            	       'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                    	'controller' => 'Home/Controller/Album',
+                    	'action' => 'index'
+                    )
+                )
             ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
@@ -61,21 +81,16 @@ return array(
             'translator' => 'MvcTranslator',
         ),
     ),
-    'translator' => array(
-        'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
-                'type'     => 'gettext',
-                'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.mo',
-            ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
-        ),
-    ),
+//     'translator' => array(
+//         'locale' => 'en_US',
+//         'translation_file_patterns' => array(
+//             array(
+//                 'type'     => 'gettext',
+//                 'base_dir' => __DIR__ . '/../language',
+//                 'pattern'  => '%s.mo',
+//             ),
+//         ),
+//     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
