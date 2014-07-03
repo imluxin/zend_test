@@ -7,13 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Home;
+namespace Album;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Home\Model\AlbumTable;
+use Album\Model\AlbumTable;
 use Zend\Db\ResultSet\ResultSet;
-use Home\Model\Album;
+use Album\Model\Album;
 use Zend\Db\TableGateway\TableGateway;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
@@ -41,17 +41,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         return array(
         	'factories' => array(
-        	   'Home\Model\AlbumTable' => function ($sm) {
-        	       $tableGateway = $sm->get('AlbumTableGateway');
-        	       $table = new AlbumTable($tableGateway);
-        	       return $table;  
-        	   },
-        	   'AlbumTableGateway' => function ($sm) {
-        	       $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-        	       $resultSetPrototype = new ResultSet();
-        	       $resultSetPrototype->setArrayObjectPrototype(new Album());
-        	       return new TableGateway('album', $dbAdapter, null , $resultSetPrototype);
-        	   },
             )
         );
     }

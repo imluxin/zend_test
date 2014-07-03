@@ -41,7 +41,16 @@ class LoginController extends AbstractActionController
             	return $viewModel;
             }
             
-            return $this->redirect()->toRoute('register_confirm');
+            $authService = $this->_get_auth_service();
+            $adapter = $authService->getAdapter();
+            $adapter->setIdentityValue($post['member_name']);
+            $adapter->setCredentialValue(md5($post['member_pwd']));
+            $authResult = $authService->authenticate();
+            
+            if ($authResult->isValid()) {
+            	return $this->redirect()->toRoute('home');
+            }
+            //return $this->redirect()->toRoute('register_confirm');
         }
         return array('form'=>$form);
     }
@@ -75,5 +84,10 @@ class LoginController extends AbstractActionController
     public function confirmAction()
     {
         return array();
+    }
+    
+    private function _get_auth_service()
+    {
+        return $this->getServiceLocator()->get('Home\AuthService');
     }
 }

@@ -1,4 +1,6 @@
 <?php
+namespace Home;
+
 return array(
     'controllers' => array(
         'invokables' => array(
@@ -70,6 +72,28 @@ return array(
                         'action'     => 'confirm',
                     ),
                 ),
+            ),
+        ),
+    ),
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../../Admin/src/Admin/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                )
+            )
+        ),
+        'authentication' => array(
+            'orm_default' => array(
+                'object_manager' => 'Doctrine\ORM\EntityManager',
+                'identity_class' => '\Admin\Entity\Customer',
+                'identity_property' => 'member_name',
+                'credential_property' => 'member_pwd',
             ),
         ),
     ),
