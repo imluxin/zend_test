@@ -65,6 +65,13 @@ class ShopncCustomer
     /**
      * @var string
      *
+     * @ORM\Column(name="member_phone", type="string", length=20, nullable=true)
+     */
+    private $memberPhone;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="member_telphone", type="string", length=255, nullable=true)
      */
     private $memberTelphone;
@@ -303,6 +310,29 @@ class ShopncCustomer
     public function getMemberEmail()
     {
         return $this->memberEmail;
+    }
+
+    /**
+     * Set memberPhone
+     *
+     * @param string $memberPhone
+     * @return ShopncCustomer
+     */
+    public function setMemberPhone($memberPhone)
+    {
+        $this->memberPhone = $memberPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get memberPhone
+     *
+     * @return string 
+     */
+    public function getMemberPhone()
+    {
+        return $this->memberPhone;
     }
 
     /**
