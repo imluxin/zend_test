@@ -2,12 +2,11 @@
 
 namespace Home\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Home\Form\RegisterForm;
 use Home\Form\LoginForm;
-use Home\Form\RegisterFilter;
-use Home\Form\LoginFilter;
+use Home\Filter\RegisterFilter;
+use Home\Filter\LoginFilter;
 
 /**
  * LoginController
@@ -17,13 +16,8 @@ use Home\Form\LoginFilter;
  * @version
  *
  */
-class LoginController extends AbstractActionController 
-{
-    public function infoAction()
-    {
-        return array();
-    }
-    
+class LoginController extends BaseController 
+{    
     public function loginAction() 
     {
         $form = new LoginForm();
@@ -48,11 +42,25 @@ class LoginController extends AbstractActionController
             $authResult = $authService->authenticate();
             
             if ($authResult->isValid()) {
+                
+                // 写入session
+                $identity = $authResult->getIdentity();
+                $authService->getStorage()->write($identity);
+                
+                
             	return $this->redirect()->toRoute('home');
             }
             //return $this->redirect()->toRoute('register_confirm');
         }
         return array('form'=>$form);
+    }
+    
+    public function logoutAction()
+    {
+        $authService = $this->_get_auth_service();
+        $authService->clearIdentity();
+        
+        return $this->redirect()->toRoute('home');
     }
     
     public function registerAction() 
@@ -72,6 +80,8 @@ class LoginController extends AbstractActionController
             	return $viewModel;
             }
             
+            //$this->get
+            
             return $this->redirect()->toRoute('register_confirm');
         }
         return array('form'=>$form);
@@ -84,10 +94,5 @@ class LoginController extends AbstractActionController
     public function confirmAction()
     {
         return array();
-    }
-    
-    private function _get_auth_service()
-    {
-        return $this->getServiceLocator()->get('Home\AuthService');
     }
 }

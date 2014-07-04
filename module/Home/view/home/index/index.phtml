@@ -4,9 +4,9 @@
 <a href="<?php echo $this->url('register')?>">注册</a>
 
 <?php 
-    if ($user = $this->identity()) {
-    	echo '<h3>欢迎您, '.$user->__get('member_name').'</h3>';
-    } else {
-        echo '<h3>用户未登陆</h3>';
-    }
-?>
+    if ($user = $this->identity()): ?>
+    	<h3>欢迎您, <?php echo $user->getMemberName();?></h3>
+    	<a href="<?php echo $this->url('logout')?>">退出</a>
+<?php else :?>
+        <h3>用户未登陆</h3>
+ <?php endif;?>

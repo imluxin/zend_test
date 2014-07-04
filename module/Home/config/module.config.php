@@ -53,6 +53,16 @@ return array(
                     ),
                 ),
             ),
+            'logout' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/home/logout',
+                    'defaults' => array(
+                        'controller' => 'Home\Controller\Login',
+                        'action'     => 'logout',
+                    ),
+                ),
+            ),
             'register' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -91,15 +101,26 @@ return array(
         'authentication' => array(
             'orm_default' => array(
                 'object_manager' => 'Doctrine\ORM\EntityManager',
-                'identity_class' => '\Admin\Entity\Customer',
-                'identity_property' => 'member_name',
-                'credential_property' => 'member_pwd',
+                'identity_class' => '\Admin\Entity\ShopncCustomer',
+                'identity_property' => 'memberName',
+                'credential_property' => 'memberPwd',
             ),
         ),
     ),
     'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => array(
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'home/index/index' => __DIR__ . '/../view/home/index/index.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ),
         'template_path_stack' => array(
-            'Home' => __DIR__ . '/../view',
+            __DIR__ . '/../view',
         ),
     ),
 );

@@ -48,8 +48,8 @@ class Module implements AutoloaderProviderInterface
     {
         return array(
         	'factories' => array(
-                //'Zend\Authentication\AuthenticationService' => function ($sm){
-                'Home\AuthService' => function ($sm){
+                'Zend\Authentication\AuthenticationService' => function ($sm){
+                //'Home\AuthService' => function ($sm){
                     return $sm->get('doctrine.authenticationservice.orm_default');
                 }	
             )

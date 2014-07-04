@@ -14,6 +14,7 @@
 return array(
 
 	    'doctrine' => array(
+	        // 配置doctrine连接
 	        'connection' => array(
 	            'orm_default' => array(
 	                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',

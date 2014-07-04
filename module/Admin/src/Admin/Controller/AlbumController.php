@@ -6,6 +6,7 @@ use Zend\View\Model\ViewModel;
 use Admin\Form\AlbumForm;
 use Doctrine\ORM\EntityManager;
 use Admin\Entity\Album;
+use Admin\Filter\AlbumFilter;
 
 class AlbumController extends AbstractActionController
 {
@@ -31,7 +32,8 @@ class AlbumController extends AbstractActionController
     
     public function indexAction()
     {
-        $albums = $this->getEntityManager()->getRepository('Admin\Entity\Album')->findAll();
+        $repo = $this->getEntityManager()->getRepository('Admin\Entity\Album');
+        $albums = $repo->getAllAlbums();
         
         return array('albums' => $albums);
     }
@@ -44,7 +46,8 @@ class AlbumController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
         	$album = new Album();
-        	$form->setInputFilter($album->getInputFilter());
+        	$filter = new AlbumFilter();
+        	$form->setInputFilter($filter);
         	$form->setData($request->getPost());
         	
         	if ($form->isValid()) {

@@ -33,4 +33,16 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         return include __DIR__ . '/config/module.config.php';
     }
     
+    public function getServiceConfig()
+    {
+        return array(
+        	'factories' => array(
+                'Zend\Authentication\AuthenticationService' => function ($sm){
+                //'Home\AuthService' => function ($sm){
+                    return $sm->get('doctrine.authenticationservice.orm_default');
+                },
+            )
+        );
+    }
+    
 }
