@@ -1,0 +1,57 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="cleartype" content="yes">
+<title>ShopNC</title>
+ <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/login.css'); ?>
+
+ <style type="text/css">
+.verifyimg {
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+
+	<div id="body_container">
+		<div id="body_1col_div" class="wrap_container">
+			<div class="wrap_bg">
+				<img src="<?php echo $this->basePath() ?>/images/bg.jpg">
+			</div>
+			<div id="framework_overview_content" class="from">
+				<h1>ShopNC</h1>
+			<?php
+			$form = $this->form;
+			$formLabel = $this->plugin ( 'formLabel' );
+			$form->setAttribute ( 'action', $this->url ( 'admin_login', array (
+					'action' => 'index' 
+			) ) );
+			
+			echo $this->form ()->openTag ( $form );
+			echo "<p>";
+			echo $this->formInput ( $form->get ( 'worker_name' ) );
+			echo $this->formElementErrors ( $form->get ( 'worker_pwd' ) );
+			echo '<span class="info rq"></span>';
+			echo "</p>";
+			
+			echo "<p>";
+			echo $this->formInput ( $form->get ( 'worker_pwd' ) );
+			echo $this->formElementErrors ( $form->get ( 'worker_pwd' ) );
+			echo "</p>";
+			echo "<p>";
+			echo $this->formsubmit ( $form->get ( 'submit' ) );
+			echo '<span class="info rq"></span>';
+			echo "</p>";
+			echo $this->form ()->closeTag ( $form );
+			?>	
+			</div>
+			<div class="footer">
+				<p>Copyright 2012-2014 shopnc.net, All Rights Reserved</p>
+			</div>
+		</div>
+	</div>
+	<!-- _profiler_result -->
+	<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.min.js', 'text/javascript');?>

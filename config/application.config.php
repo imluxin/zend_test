@@ -45,7 +45,7 @@ return array(
         'module_map_cache_key' => 'l42jkl3j4lj23i4j234njh2o34hno',
 
         // The path in which to cache merged configuration.
-        'cache_dir' => __DIR__.'/../data/cache/mocule_cache',
+        'cache_dir' => __DIR__.'/../data/cache/module_cache',
 
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules
