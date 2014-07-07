@@ -15,43 +15,53 @@ return array (
 								'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
 								'cache' => 'array',
 								'paths' => array (
-										__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity' 
-								) 
+										__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+								)
 						),
-						'orm_default' => array (
+						'orm_admin' => array (
 								'drivers' => array (
-										__NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver' 
-								) 
-						) 
+										__NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+								)
+						)
 				),
 				'authentication' => array (
-						'orm_default' => array (
+						'orm_admin' => array (
 								'object_manager' => 'Doctrine\ORM\EntityManager',
 								'identity_class' => 'Admin\Entity\ShopncWorker',
 								'identity_property' => 'workerName',
 								'credential_property' => 'workerPwd'
-								
-						) 
-				) 
+
+						)
+				),
+                'authenticationservice' => array (
+                    	'orm_admin' => true
+                ),
+                'authenticationstorage' => array (
+                    	'orm_admin' => true
+                ),
+                'authenticationadapter' => array (
+                    	'orm_admin' => true
+                ),
 		),
 		'controllers' => array (
 				'invokables' => array (
 						'Admin\Controller\Index' => 'Admin\Controller\IndexController',
 						'Admin\Controller\Login' => 'Admin\Controller\LoginController',
-						'Admin\Controller\Album' => 'Admin\Controller\AlbumController' 
-				) 
+						'Admin\Controller\Album' => 'Admin\Controller\AlbumController',
+						'Admin\Controller\User' => 'Admin\Controller\UserController'
+				)
 		),
 		'router' => array (
 				'routes' => array (
 						'admin' => array (
 								'type' => 'Zend\Mvc\Router\Http\Literal',
 								'options' => array (
-										'route' => '/',
+										'route' => '/admin',
 										'defaults' => array (
 												'controller' => 'Admin\Controller\Login',
-												'action' => 'index' 
-										) 
-								) 
+												'action' => 'index'
+										)
+								)
 						),
 						'admin_login' => array (
 								'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -59,9 +69,9 @@ return array (
 										'route' => '/admin/login',
 										'defaults' => array (
 												'controller' => 'Admin\Controller\Login',
-												'action' => 'index' 
-										) 
-								) 
+												'action' => 'index'
+										)
+								)
 						),
 						'admin_album' => array (
 								'type' => 'segment',
@@ -69,13 +79,27 @@ return array (
 										'route' => '/admin/album[/][:action][/:id]',
 										'constraints' => array (
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-												'id' => '[0-9]+' 
+												'id' => '[0-9]+'
 										),
 										'defaults' => array (
 												'controller' => 'Admin/Controller/Album',
-												'action' => 'index' 
-										) 
-								) 
+												'action' => 'index'
+										)
+								)
+						),
+						'admin_user' => array(
+								'type' => 'segment',
+								'options' => array(
+										'route' => '/admin/user[/][:action][/:id]',
+										'constraints' => array(
+												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'id' => '[0-9]+',
+										),
+										'defaults' => array(
+												'controller' => 'Admin/Controller/User',
+												'action' => 'index'
+										)
+								)
 						),
 						// The following is a route to simplify getting started creating
 						// new controllers and actions without needing to create a new
@@ -88,8 +112,8 @@ return array (
 										'defaults' => array (
 												'__NAMESPACE__' => 'Application\Controller',
 												'controller' => 'Index',
-												'action' => 'index' 
-										) 
+												'action' => 'index'
+										)
 								),
 								'may_terminate' => true,
 								'child_routes' => array (
@@ -99,23 +123,24 @@ return array (
 														'route' => '/[:controller[/:action]]',
 														'constraints' => array (
 																'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-																'action' => '[a-zA-Z][a-zA-Z0-9_-]*' 
+																'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
 														),
-														'defaults' => array () 
-												) 
-										) 
-								) 
-						) 
-				) 
+														'defaults' => array ()
+												)
+										)
+								)
+						)
+				)
 		),
 		'service_manager' => array (
 				'abstract_factories' => array (
 						'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-						'Zend\Log\LoggerAbstractServiceFactory' 
+						'Zend\Log\LoggerAbstractServiceFactory'
 				),
 				'aliases' => array (
-						'translator' => 'MvcTranslator' 
-				) 
+						'translator' => 'MvcTranslator',
+                        'Zend\Authentication\AuthenticationService' => 'Admin_AuthService',
+				),
 		),
 		'view_manager' => array (
 				'display_not_found_reason' => true,
@@ -124,19 +149,21 @@ return array (
 				'not_found_template' => 'error/404',
 				'exception_template' => 'error/index',
 				'template_map' => array (
-						'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+						'admin/layout' => __DIR__ . '/../view/layout/layout.phtml',
             			'admin/index/index' => __DIR__ . '/../view/admin/index/index.phtml',
 						'error/404' => __DIR__ . '/../view/error/404.phtml',
-						'error/index' => __DIR__ . '/../view/error/index.phtml' 
+						'error/index' => __DIR__ . '/../view/error/index.phtml',
+						'pagination/search' => __DIR__ . '/../view/pagination/search.phtml'
 				),
 				'template_path_stack' => array (
-						__DIR__ . '/../view' 
-				) 
+						__DIR__ . '/../view'
+				)
 		),
 		// Placeholder for console routes
 		'console' => array (
 				'router' => array (
-						'routes' => array () 
-				) 
-		) 
+						'routes' => array ()
+				)
+		)
+
 );

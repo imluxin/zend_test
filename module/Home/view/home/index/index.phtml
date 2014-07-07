@@ -5,7 +5,7 @@
 
 <?php 
     if ($user = $this->identity()): ?>
-    	<h3>欢迎您, <?php echo $user->getMemberName();?></h3>
+    	<h3>欢迎您, <?php echo $user->getRealName();?></h3>
     	<a href="<?php echo $this->url('logout')?>">退出</a>
 <?php else :?>
         <h3>用户未登陆</h3>

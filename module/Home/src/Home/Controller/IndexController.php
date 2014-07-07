@@ -14,6 +14,7 @@ class IndexController extends BaseController
 {
     public function indexAction()
     {
+        $auth = $this->_get_auth_service();
         return array();
     }
 

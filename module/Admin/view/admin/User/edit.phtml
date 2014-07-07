@@ -1,0 +1,30 @@
+<?php
+
+ $title = '编辑会员';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'admin_user',
+     array(
+         'action' => 'edit',
+         'id'     => $this->id,
+     )
+ ));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('memberId'));
+ echo $this->formRow($form->get('memberName'));
+ echo $this->formRow($form->get('memberPwd'));
+ echo $this->formRow($form->get('realName'));
+ echo $this->formRow($form->get('memberEmail'));
+ echo $this->formRow($form->get('memberQq'));
+ echo $this->formRow($form->get('memberWebsite'));
+ echo $this->formRow($form->get('memberTelphone'));
+ echo $this->formRow($form->get('memberAddress'));
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();

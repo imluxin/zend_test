@@ -13,20 +13,24 @@
 
 return array(
 
-	    'doctrine' => array(
-	        // 配置doctrine连接
-	        'connection' => array(
-	            'orm_default' => array(
-	                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-	                'params' => array(
-	                    'host'     => 'localhost',
-	                    'port'     => '3306',
-	                    'user'     => 'root',
-	                    'password' => 'root',
-	                    'dbname'   => 'ncwork_zend',
-	                    //'dbname'   => 'zend_test',
-	                )
-	            )
-	        )
-	    ),
+// 	    'doctrine' => array(
+// 	        // 配置doctrine连接
+// 	        'connection' => array(
+// 	            'orm_default' => array(
+// 	                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+// 	                'params' => array(
+// 	                    'host'     => 'localhost',
+// 	                    'port'     => '3306',
+// 	                    'user'     => 'root',
+// 	                    'password' => 'root',
+// 	                    'dbname'   => 'ncwork_zend',
+// 	                    //'dbname'   => 'zend_test',
+//     	                'charset' => 'utf8',
+//     	                'driverOptions' => array(
+//     	                        1002=>'SET NAMES utf8'
+//     	                )
+// 	                )
+// 	            )
+// 	        )
+// 	    ),
 );

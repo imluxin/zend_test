@@ -14,7 +14,7 @@ return array(
                 'type'    => 'Literal',
                 'options' => array(
                     // Change this to something specific to your module
-                    'route'    => '/home',
+                    'route'    => '/',
                     'defaults' => array(
                         // Change this value to reflect the namespace in which
                         // the controllers for your module are found
@@ -46,7 +46,7 @@ return array(
             'login' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/home/login',
+                    'route'    => '/login',
                     'defaults' => array(
                         'controller' => 'Home\Controller\Login',
                         'action'     => 'login',
@@ -56,7 +56,7 @@ return array(
             'logout' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/home/logout',
+                    'route'    => '/logout',
                     'defaults' => array(
                         'controller' => 'Home\Controller\Login',
                         'action'     => 'logout',
@@ -66,7 +66,7 @@ return array(
             'register' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/home/register',
+                    'route'    => '/register',
                     'defaults' => array(
                         'controller' => 'Home\Controller\Login',
                         'action'     => 'register',
@@ -76,7 +76,7 @@ return array(
             'register_confirm' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/home/register/confirm',
+                    'route'    => '/register/confirm',
                     'defaults' => array(
                         'controller' => 'Home\Controller\Login',
                         'action'     => 'confirm',
@@ -92,19 +92,28 @@ return array(
                 'cache' => 'array',
                 'paths' => array(__DIR__ . '/../../Admin/src/Admin/Entity')
             ),
-            'orm_default' => array(
+            'orm_home' => array(
                 'drivers' => array(
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
                 )
             )
         ),
         'authentication' => array(
-            'orm_default' => array(
+            'orm_home' => array(
                 'object_manager' => 'Doctrine\ORM\EntityManager',
                 'identity_class' => '\Admin\Entity\ShopncCustomer',
                 'identity_property' => 'memberName',
                 'credential_property' => 'memberPwd',
             ),
+        ),
+        'authenticationservice' => array (
+            	'orm_home' => true
+        ),
+        'authenticationstorage' => array (
+            	'orm_home' => true
+        ),
+        'authenticationadapter' => array (
+            	'orm_home' => true
         ),
     ),
     'view_manager' => array(
@@ -114,8 +123,8 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'home/index/index' => __DIR__ . '/../view/home/index/index.phtml',
+            'home/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'home/index/index'        => __DIR__ . '/../view/home/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
@@ -123,4 +132,14 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+	'service_manager' => array (
+			'abstract_factories' => array (
+					'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+					'Zend\Log\LoggerAbstractServiceFactory'
+			),
+			'aliases' => array (
+					'translator' => 'MvcTranslator',
+                    'Zend\Authentication\AuthenticationService' => 'Home_AuthService',
+			),
+	),
 );

@@ -1,5 +1,5 @@
 <?php
-
+define('REQUEST_MICROTIME', microtime(true));
 
 /**
 * Display all errors when APPLICATION_ENV is development.

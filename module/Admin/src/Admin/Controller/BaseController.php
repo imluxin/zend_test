@@ -8,7 +8,8 @@ class BaseController extends AbstractActionController
 {
 	public function getAuthService()
 	{
-		return $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+// 		return $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+		return $this->getServiceLocator()->get('Admin_AuthService');
 	}
 
 	/**

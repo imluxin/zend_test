@@ -1,0 +1,51 @@
+<?php
+ // module/Album/view/album/album/index.phtml:
+
+ $title = '用户列表';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a href="<?php echo $this->url('admin_user', array('action'=>'add'));?>">添加新用户</a>
+ </p>
+
+ <table class="table">
+ <tr>
+     <th>会员名称</th>
+     <th>公司/个人名称</th>
+     <th>电子邮箱</th>
+     <th>QQ</th>
+     <th>网站</th>
+     <th>手机号</th>
+     <th>详细地址</th>
+     <th>操作</th>
+ </tr>
+ <?php foreach ($paginator as $user) : ?>
+ <tr>
+     <td><?php echo $this->escapeHtml($user->memberName);?></td>
+     <td><?php echo $this->escapeHtml($user->realName);?></td>
+     <td><?php echo $this->escapeHtml($user->memberEmail);?></td>
+     <td><?php echo $this->escapeHtml($user->memberQq);?></td>
+     <td><?php echo $this->escapeHtml($user->memberWebsite);?></td>
+     <td><?php echo $this->escapeHtml($user->memberTelphone);?></td>
+     <td><?php echo $this->escapeHtml($user->memberAddress);?></td>
+     <td>
+         <a href="<?php echo $this->url('admin_user',
+             array('action'=>'edit', 'id' => $user->memberId));?>">编辑</a>
+         <a class="del" href="javascript:void(0);" uri="<?php echo $this->url('admin_user',
+             array('action'=>'delete', 'id' => $user->memberId));?>">删除</a>   
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>
+
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination/search.phtml');?>
+<script type="text/javascript">
+$(document).ready(function(e){
+	$('.del').click(function(){
+	    if (confirm('Are you sure?')){
+		    location.href = $(this).attr('uri');
+	    }
+	});
+});
+</script>

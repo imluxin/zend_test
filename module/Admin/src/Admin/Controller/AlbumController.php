@@ -1,35 +1,12 @@
 <?php
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use Admin\Form\AlbumForm;
-use Doctrine\ORM\EntityManager;
 use Admin\Entity\Album;
 use Admin\Filter\AlbumFilter;
 
-class AlbumController extends AbstractActionController
-{
-    protected $albumTable;
-
-    /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
-    
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
-    
-    public function getEntityManager()
-    {
-        if (null == $this->em) {
-            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        }
-        return $this->em;
-    }
-    
+class AlbumController extends BaseController
+{    
     public function indexAction()
     {
         $repo = $this->getEntityManager()->getRepository('Admin\Entity\Album');

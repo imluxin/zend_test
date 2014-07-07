@@ -8,7 +8,7 @@ class ShopncCustomerFilter extends InputFilter
     public function __construct()
     {   
         $this->add(array(
-                'name' => 'member_id',
+                'name' => 'memberId',
                 'required' => true,
                 'filters' => array(
                         array('name' => 'Int')
@@ -16,7 +16,7 @@ class ShopncCustomerFilter extends InputFilter
         ));
          
         $this->add(array(
-                'name' => 'member_name',
+                'name' => 'memberName',
                 'required' => true,
                 'filters' => array(
                         array('name' => 'StripTags'),
@@ -35,7 +35,7 @@ class ShopncCustomerFilter extends InputFilter
         ));
          
         $this->add(array(
-                'name' => 'member_pwd',
+                'name' => 'memberPwd',
                 'required' => true,
                 'filters' => array(
                         array('name' => 'StripTags'),
@@ -54,7 +54,7 @@ class ShopncCustomerFilter extends InputFilter
         ));
          
         $this->add(array(
-                'name' => 'member_name',
+                'name' => 'realName',
                 'required' => true,
                 'filters' => array(
                         array('name' => 'StripTags'),
@@ -73,7 +73,7 @@ class ShopncCustomerFilter extends InputFilter
         ));
         
         $this->add(array(
-        	'name' => 'member_email',
+        	'name' => 'memberEmail',
             'required' => true,
             'validators' => array(
                 array(

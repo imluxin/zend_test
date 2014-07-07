@@ -21,6 +21,8 @@ class LoginController extends BaseController {
 	 * The default action - show the home page
 	 */
 	public function indexAction() {
+	    $this->getAuthService();
+	    $this->identity();
 		$data = $this->getRequest ();
 		$login_form = new LoginForm ();
 		if ($data->isPost ()) {

@@ -12,9 +12,16 @@ namespace Home;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\ModuleManager\ModuleManager;
 
 class Module implements AutoloaderProviderInterface
 {
+    public function init(ModuleManager $mm)
+    {
+        $mm->getEventManager()->getSharedManager()->attach(__NAMESPACE__, 'dispatch', function($e){
+        	$e->getTarget()->layout('home/layout');
+        });
+    }
     public function getAutoloaderConfig()
     {
         return array(
@@ -48,9 +55,12 @@ class Module implements AutoloaderProviderInterface
     {
         return array(
         	'factories' => array(
-                'Zend\Authentication\AuthenticationService' => function ($sm){
-                //'Home\AuthService' => function ($sm){
-                    return $sm->get('doctrine.authenticationservice.orm_default');
+//                 'Zend\Authentication\AuthenticationService' => function ($sm){
+                'Home_AuthService' => function ($sm){
+                    $service = $sm->get('doctrine.authenticationservice.orm_home');
+//                     echo 'home -------------';
+//                     var_dump($service);die(); 
+                    return $service;
                 }	
             )
         );

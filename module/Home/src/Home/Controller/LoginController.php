@@ -43,13 +43,18 @@ class LoginController extends BaseController
             $adapter->setIdentityValue($post['member_name']);
             $adapter->setCredentialValue(md5($post['member_pwd']));
             $authResult = $authService->authenticate();
+            //die('22');
             
             if ($authResult->isValid()) {
                 
                 // 写入session
                 $identity = $authResult->getIdentity();
                 $authService->getStorage()->write($identity);
-                
+                $time = 1209600; // 14 days 1209600/3600 = 336 hours => 336/24 = 14 days
+                if ($post['rememberme']) {
+                    $sessionManager = new \Zend\Session\SessionManager();
+                    $sessionManager->rememberMe($time);
+                }
                 
             	return $this->redirect()->toRoute('home');
             }
@@ -61,7 +66,15 @@ class LoginController extends BaseController
     public function logoutAction()
     {
         $authService = $this->_get_auth_service();
+		
+		if ($authService->hasIdentity()) {
+			// Identity exists; get it
+			$identity = $authService->getIdentity();
+		}
+		
         $authService->clearIdentity();
+        $sessionManager = new \Zend\Session\SessionManager();
+        $sessionManager->forgetMe();
         
         return $this->redirect()->toRoute('home');
     }

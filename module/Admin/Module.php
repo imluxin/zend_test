@@ -11,9 +11,17 @@ namespace Admin;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\ModuleManager;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
+    public function init(ModuleManager $mm)
+    {
+        $mm->getEventManager()->getSharedManager()->attach(__NAMESPACE__, 'dispatch', function($e){
+        	$e->getTarget()->layout('admin/layout');
+        });
+    }
+    
     public function getAutoloaderConfig()
     {
         return array(
@@ -37,9 +45,12 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         return array(
         	'factories' => array(
-                'Zend\Authentication\AuthenticationService' => function ($sm){
-                //'Home\AuthService' => function ($sm){
-                    return $sm->get('doctrine.authenticationservice.orm_default');
+//                 'Zend\Authentication\AuthenticationService' => function ($sm){
+                'Admin_AuthService' => function ($sm){
+                    $service = $sm->get('doctrine.authenticationservice.orm_admin');
+//                     echo 'admin -------------';
+//                     var_dump($service);die();
+                    return $service; 
                 },
             )
         );
