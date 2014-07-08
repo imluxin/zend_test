@@ -43,7 +43,6 @@ class LoginController extends BaseController
             $adapter->setIdentityValue($post['member_name']);
             $adapter->setCredentialValue(md5($post['member_pwd']));
             $authResult = $authService->authenticate();
-            //die('22');
             
             if ($authResult->isValid()) {
                 

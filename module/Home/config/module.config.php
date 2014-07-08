@@ -43,77 +43,6 @@ return array(
                     ),
                 ),
             ),
-            'login' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/login',
-                    'defaults' => array(
-                        'controller' => 'Home\Controller\Login',
-                        'action'     => 'login',
-                    ),
-                ),
-            ),
-            'logout' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route'    => '/logout',
-                    'defaults' => array(
-                        'controller' => 'Home\Controller\Login',
-                        'action'     => 'logout',
-                    ),
-                ),
-            ),
-            'register' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/register',
-                    'defaults' => array(
-                        'controller' => 'Home\Controller\Login',
-                        'action'     => 'register',
-                    ),
-                ),
-            ),
-            'register_confirm' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/register/confirm',
-                    'defaults' => array(
-                        'controller' => 'Home\Controller\Login',
-                        'action'     => 'confirm',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'doctrine' => array(
-        'driver' => array(
-            __NAMESPACE__ . '_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../../Admin/src/Admin/Entity')
-            ),
-            'orm_home' => array(
-                'drivers' => array(
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
-                )
-            )
-        ),
-        'authentication' => array(
-            'orm_home' => array(
-                'object_manager' => 'Doctrine\ORM\EntityManager',
-                'identity_class' => '\Admin\Entity\ShopncCustomer',
-                'identity_property' => 'memberName',
-                'credential_property' => 'memberPwd',
-            ),
-        ),
-        'authenticationservice' => array (
-            	'orm_home' => true
-        ),
-        'authenticationstorage' => array (
-            	'orm_home' => true
-        ),
-        'authenticationadapter' => array (
-            	'orm_home' => true
         ),
     ),
     'view_manager' => array(
@@ -139,7 +68,7 @@ return array(
 			),
 			'aliases' => array (
 					'translator' => 'MvcTranslator',
-                    'Zend\Authentication\AuthenticationService' => 'Home_AuthService',
+//                     'Zend\Authentication\AuthenticationService' => 'Home_AuthService',
 			),
 	),
 );

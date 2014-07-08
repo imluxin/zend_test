@@ -56,12 +56,12 @@ class Module implements AutoloaderProviderInterface
         return array(
         	'factories' => array(
 //                 'Zend\Authentication\AuthenticationService' => function ($sm){
-                'Home_AuthService' => function ($sm){
-                    $service = $sm->get('doctrine.authenticationservice.orm_home');
-//                     echo 'home -------------';
-//                     var_dump($service);die(); 
-                    return $service;
-                }	
+//                 'Home_AuthService' => function ($sm){
+//                     $service = $sm->get('doctrine.authenticationservice.orm_home');
+// //                     echo 'home -------------';
+// //                     var_dump($service);die(); 
+//                     return $service;
+//                 }	
             )
         );
     }

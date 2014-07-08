@@ -9,40 +9,6 @@
  */
 namespace Admin;
 return array (
-		'doctrine' => array (
-				'driver' => array (
-						__NAMESPACE__ . '_driver' => array (
-								'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-								'cache' => 'array',
-								'paths' => array (
-										__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
-								)
-						),
-						'orm_admin' => array (
-								'drivers' => array (
-										__NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
-								)
-						)
-				),
-				'authentication' => array (
-						'orm_admin' => array (
-								'object_manager' => 'Doctrine\ORM\EntityManager',
-								'identity_class' => 'Admin\Entity\ShopncWorker',
-								'identity_property' => 'workerName',
-								'credential_property' => 'workerPwd'
-
-						)
-				),
-                'authenticationservice' => array (
-                    	'orm_admin' => true
-                ),
-                'authenticationstorage' => array (
-                    	'orm_admin' => true
-                ),
-                'authenticationadapter' => array (
-                    	'orm_admin' => true
-                ),
-		),
 		'controllers' => array (
 				'invokables' => array (
 						'Admin\Controller\Index' => 'Admin\Controller\IndexController',
@@ -139,7 +105,7 @@ return array (
 				),
 				'aliases' => array (
 						'translator' => 'MvcTranslator',
-                        'Zend\Authentication\AuthenticationService' => 'Admin_AuthService',
+//                         'Zend\Authentication\AuthenticationService' => 'Admin_AuthService',
 				),
 		),
 		'view_manager' => array (

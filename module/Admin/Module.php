@@ -46,12 +46,12 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         return array(
         	'factories' => array(
 //                 'Zend\Authentication\AuthenticationService' => function ($sm){
-                'Admin_AuthService' => function ($sm){
-                    $service = $sm->get('doctrine.authenticationservice.orm_admin');
-//                     echo 'admin -------------';
-//                     var_dump($service);die();
-                    return $service; 
-                },
+//                 'Admin_AuthService' => function ($sm){
+//                     $service = $sm->get('doctrine.authenticationservice.orm_admin');
+// //                     echo 'admin -------------';
+// //                     var_dump($service);die();
+//                     return $service; 
+//                 },
             )
         );
     }
