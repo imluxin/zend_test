@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Form;
+namespace User\Form;
 
 use Zend\InputFilter\InputFilter;
 use ZfcUser\Options\AuthenticationOptionsInterface;

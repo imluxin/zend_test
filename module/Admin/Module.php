@@ -52,7 +52,9 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 // //                     var_dump($service);die();
 //                     return $service; 
 //                 },
-            )
+                'top_nav'=>'Admin\Navigation\TopNavigationFactory',
+            ),
+
         );
     }
     

@@ -1,0 +1,72 @@
+<div class="row-fluid">
+    <div class="page-header">
+        <h2>{$title}</h2>
+    </div>
+    <div class="row-fluid">
+        <form class="form-horizontal" method="post" action="__ROOT__/index.php/Active/add_clas" id="active_form" name="active_form">
+            <input type="hidden" name="class_id" value="{$info.class_id}"/>
+
+            <div class="control-group">
+                <label class="control-label" for="member_name"><span class="require">*</span>咨询分类</label>
+                <div class="controls">
+                    <input type="text" name="class_name" id="class_name" class="text w200" value="{$info.class_name}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="member_name"><span class="require">*</span>显示</label>
+                <div class="controls">
+                    <input id="is_show1" name="is_show" <php>if($info['is_show']=='1') echo 'checked="checked"';</php> value="1" type="radio" />是
+                    <input id="is_show0" name="is_show" <php>if($info['is_show']=='0') echo 'checked="checked"';</php> value="0" type="radio" />否
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="member_name"><span class="require">*</span>排序</label>
+                <div class="controls">
+                    <input type="text" name="sort" class="text w50" value="{$info.sort}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                      <button type="submit" class="btn btn-primary">提交</button>
+                      <a href="__ROOT__/index.php/Active/classes" class="btn">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(function(){
+	$("#active_form").validate({
+		errorPlacement:function(error,element){
+			error.insertAfter(element);
+		},
+		submitHandler:function(form){
+			form.submit();
+		},
+		rules:{
+			class_name:{
+				required:true
+			},
+			sort:{
+				number:true,
+				min:0,
+				max:255
+			}
+		},
+		messages:{
+			class_name:{
+				required:"咨询分类不能为空"
+			},
+			sort:{
+				number:"排序必须是0—255之间的数",
+				min:"排序必须是0—255之间的数",
+				max:"排序必须是0—255之间的数"
+			}
+		}
+	});
+
+});
+</script>

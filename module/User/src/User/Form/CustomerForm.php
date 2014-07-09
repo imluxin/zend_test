@@ -15,30 +15,6 @@ class CustomerForm extends Form
         ));
         
         $this->add(array(
-            'name' => 'memberName',
-            'type' => 'Text',
-            'options' => array(
-                'label' => '会员名称',
-            )
-        ));
-        
-        $this->add(array(
-            'name' => 'memberPwd',
-            'type' => 'Text',
-            'options' => array(
-                'label' => '密码',
-            )
-        ));
-        
-        /*$this->add(array(
-        		'name' => 'repwd',
-        		'type' => 'Text',
-        		'options' => array(
-        				'label' => '确认密码',
-        		)
-        ));*/
-        
-        $this->add(array(
         		'name' => 'realName',
         		'type' => 'Text',
         		'options' => array(

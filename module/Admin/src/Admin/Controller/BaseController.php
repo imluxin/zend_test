@@ -6,6 +6,10 @@ use Doctrine\ORM\EntityManager;
 
 class BaseController extends AbstractActionController
 {
+	function __construct(){
+	    //登录验证
+	}
+
 	public function getAuthService()
 	{
 // 		return $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
@@ -29,4 +33,9 @@ class BaseController extends AbstractActionController
 		}
 		return $this->em;
 	}
+
+	/**
+	 * 用户登录验证
+	 * */
+	private function _isLogin($url=''){}
 }

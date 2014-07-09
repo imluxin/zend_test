@@ -11,6 +11,7 @@ use Zend\Stdlib\Hydrator;
 use ZfcBase\EventManager\EventProvider;
 use ZfcUser\Mapper\UserInterface as UserMapperInterface;
 use ZfcUser\Options\UserServiceOptionsInterface;
+use Admin\Entity\ShopncCustomer;
 
 class User extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -97,6 +98,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form));
         $this->getUserMapper()->insert($user);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form));
+        
         return $user;
     }
 

@@ -22,18 +22,11 @@ class ShopncWorker
     private $workerId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="worker_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="user_id", type="integer", length=11, nullable=false)
      */
-    private $workerName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="worker_pwd", type="string", length=255, nullable=false)
-     */
-    private $workerPwd;
+    private $userId;
 
     /**
      * @var string
@@ -159,50 +152,15 @@ class ShopncWorker
         return $this->workerId;
     }
 
-    /**
-     * Set workerName
-     *
-     * @param string $workerName
-     * @return ShopncWorker
-     */
-    public function setWorkerName($workerName)
+    public function setUserId($userId)
     {
-        $this->workerName = $workerName;
+        $this->userId = $userId;
 
         return $this;
     }
-
-    /**
-     * Get workerName
-     *
-     * @return string 
-     */
-    public function getWorkerName()
+    public function getUserId()
     {
-        return $this->workerName;
-    }
-
-    /**
-     * Set workerPwd
-     *
-     * @param string $workerPwd
-     * @return ShopncWorker
-     */
-    public function setWorkerPwd($workerPwd)
-    {
-        $this->workerPwd = $workerPwd;
-
-        return $this;
-    }
-
-    /**
-     * Get workerPwd
-     *
-     * @return string 
-     */
-    public function getWorkerPwd()
-    {
-        return $this->workerPwd;
+        return $this->userId;
     }
 
     /**

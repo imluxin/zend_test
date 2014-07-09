@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Form;
+namespace User\Form;
 
 use ZfcBase\Form\ProvidesEventsForm;
 use ZfcUser\Options\RegistrationOptionsInterface;

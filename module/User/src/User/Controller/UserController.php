@@ -8,6 +8,9 @@ use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 use ZfcUser\Service\User as UserService;
 use ZfcUser\Options\UserControllerOptionsInterface;
+use Admin\Entity\ShopncCustomer;
+use Admin\Form\CustomerForm;
+use User\Filter\ShopncCustomerFilter;
 
 class UserController extends BaseController
 {
@@ -75,6 +78,9 @@ class UserController extends BaseController
      */
     public function indexAction()
     {
+//         $r = $this->getEntityManager()->getRepository('Admin\Entity\ShopncWorksWorker');
+//         $t = $r->getAllActiveByMemberId('7');
+//         var_dump($t);die();
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
             return $this->redirect()->toRoute(static::ROUTE_LOGIN);
         }
@@ -174,7 +180,7 @@ class UserController extends BaseController
      * Register new user
      */
     public function registerAction()
-    {
+    {        
         // if the user is logged in, we don't need to register
         if ($this->zfcUserAuthentication()->hasIdentity()) {
             // redirect to the login redirect route
@@ -188,7 +194,7 @@ class UserController extends BaseController
         $request = $this->getRequest();
         $service = $this->getUserService();
         $form = $this->getRegisterForm();
-
+        
         if ($this->getOptions()->getUseRedirectParameterIfPresent() && $request->getQuery()->get('redirect')) {
             $redirect = $request->getQuery()->get('redirect');
         } else {
@@ -208,7 +214,6 @@ class UserController extends BaseController
                 'redirect' => $redirect,
             );
         }
-
         $post = $prg;
         $user = $service->register($post);
 
@@ -220,6 +225,21 @@ class UserController extends BaseController
                 'enableRegistration' => $this->getOptions()->getEnableRegistration(),
                 'redirect' => $redirect,
             );
+        }
+
+
+        if (!empty($user)){
+            $customer = new ShopncCustomer();
+            $customer->setMemberEmail($post['email'])
+                ->setRealName($post['realName'])
+                ->setMemberTelphone($post['memberTelphone'])
+                ->setMemberQq($post['memberQq'])
+                ->setMemberWebsite($post['memberWebsite'])
+                ->setMemberAddress($post['memberAddress'])
+                ->setUserId($user->getId())
+            ;
+            $this->getEntityManager()->persist($customer);
+            $this->getEntityManager()->flush();
         }
 
         if ($service->getOptions()->getLoginAfterRegistration()) {

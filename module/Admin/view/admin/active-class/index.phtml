@@ -1,0 +1,121 @@
+<div class="row-fluid">
+    <div class="page-header">
+        <h2>  <?php echo $this->escapeHtml($title);?>
+         
+                    <a class="btn btn-primary" href="<?php echo $this->url('admin_active_class',array('action'=>'add')); ?>">添加</a>
+                    <a class="red_btn btn btn-danger" href="javascript:void(0);">删除</a>
+            
+        </h2>
+    </div>
+	<div class="row-fluid">
+		<form method="get" action="<?php echo $this->url('admin_active_class',array('action'=>'del'));?>" id="Active_form">
+	    	<table class="table table-hover">
+	        	<thead>
+	        		<tr colspan="10">
+	        			
+	        		</tr>
+	                <tr class="info table_top">
+	                    <td><input type="checkbox" id="ckAll" /></td>
+	                    <td class="w50 tc">排序</td>
+	                    <td class="w300 tc">咨询分类</td>
+	                    <td class="w80 tc">是否显示</td>
+	                    <td class="w120 tc">操作</td>
+	                </tr>
+	            </thead>
+	            <tbody>
+                <?php if(is_array($ac_class) && !empty($ac_class)){?>
+	            <?php foreach($ac_class as $val){?>
+	            <tr>
+	            	<td>
+	                <input type="checkbox" name="ckid[]" value="<?php echo $val->getClassId();?>" />
+	                </td>
+	                <td class="tc"><input type="text" name="sort<?php echo $val->getClassId();?>" value="<?php echo $val->getSort();?>" class="text w30 h20 lh20" /></td>
+	                <td class="tc"><?php echo $this->escapeHtml($val->getClassName());?></td>
+	                <td class="tc">
+                    <?php echo ($val->getIsShow())?'是':'否';?>
+                    </td>
+	                <td class="tc">
+	                	<a href="<?php echo $this->url('admin_active_class',array('action'=>'edit','id'=>$val->getClassId()));?>">编辑</a> | <a class="del" val="<?php echo $val->getClassId();?>" href="javascript:void(0);">删除</a>
+	                </td>
+	            </tr>
+	            <?php }?>
+                <?php }else{ ?>
+                <tr>
+	            	<td colspan="5" height="100">
+	               		无数据
+	                </td>
+	            </tr>
+                <?php }?>
+	            </tbody>
+	            <tfoot>
+	            	<tr>
+	                	<td colspan="15">
+	                    	{$page}
+	                    </td>
+	                </tr>
+	            </tfoot>
+	        </table>
+	    </form>
+	</div>
+</div>
+
+<script>
+$(function(){
+	var len = $("input[name^='ckid']").length;
+	var flg = 0;
+	$("input[type=checkbox]").click(function(){
+		if($(this).attr("checked")=="checked"){			
+			if($(this).attr('id')=="ckAll"){
+				$("input[type=checkbox]").attr("checked","checked");
+				flg=len;
+			}else{
+				$(this).attr("checked","checked");
+				flg++;
+			}
+		}else{
+			if($(this).attr('id')=='ckAll'){
+				$("input[type=checkbox]").removeAttr("checked");
+				flg=0;
+			}else{
+				$(this).removeAttr("checked");
+				flg--;
+			}
+		}
+		alert($(this).attr("name"));
+		if(flg<0){flg=0;}
+		if(flg==len){
+			$('#ckAll').attr("checked","checked");
+		}else{
+			$('#ckAll').removeAttr("checked");
+		}
+	});
+	$(".red_btn").click(function(){
+		var id = new Array();
+		var flog=0;
+		$('input[name^="ckid"]').each(function(){
+			if($(this).attr("checked")=='checked'){
+				id[flog] = $(this).val();
+				flog++;
+			}
+		});
+		
+		if(confirm('确认要删除吗')){
+			$('#Active_form').submit();
+		}
+	});
+	$('.del').click(function(){
+		var id = $(this).attr('val');
+		if(confirm('确认要删除吗')){
+			location.href="<?php echo $this->url('admin_active_class',array('action'=>'del'));?>/ckid/"+id
+
+		}
+	});
+	$('input[type=text]').blur(function(){
+		var names = $(this).attr('name');
+		var ids = names.replace("sort","");
+		var val = $(this).val();
+		$.get("<?php echo $this->url('admin_active_class',array('action'=>'del'));?>",{"id":ids,"srot":val});
+	});
+});
+</script>
+ 

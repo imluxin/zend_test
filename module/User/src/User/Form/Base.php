@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Form;
+namespace User\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
@@ -15,7 +15,7 @@ class Base extends ProvidesEventsForm
         $this->add(array(
             'name' => 'username',
             'options' => array(
-                'label' => 'Username',
+                'label' => '用户名',
             ),
             'attributes' => array(
                 'type' => 'text'
@@ -25,7 +25,7 @@ class Base extends ProvidesEventsForm
         $this->add(array(
             'name' => 'email',
             'options' => array(
-                'label' => 'Email',
+                'label' => '邮箱',
             ),
             'attributes' => array(
                 'type' => 'text'
@@ -35,7 +35,7 @@ class Base extends ProvidesEventsForm
         $this->add(array(
             'name' => 'display_name',
             'options' => array(
-                'label' => 'Display Name',
+                'label' => '昵称',
             ),
             'attributes' => array(
                 'type' => 'text'
@@ -45,7 +45,7 @@ class Base extends ProvidesEventsForm
         $this->add(array(
             'name' => 'password',
             'options' => array(
-                'label' => 'Password',
+                'label' => '登陆密码',
             ),
             'attributes' => array(
                 'type' => 'password'
@@ -55,7 +55,7 @@ class Base extends ProvidesEventsForm
         $this->add(array(
             'name' => 'passwordVerify',
             'options' => array(
-                'label' => 'Password Verify',
+                'label' => '确认密码',
             ),
             'attributes' => array(
                 'type' => 'password'
@@ -67,7 +67,7 @@ class Base extends ProvidesEventsForm
                 'name' => 'captcha',
                 'type' => 'Zend\Form\Element\Captcha',
                 'options' => array(
-                    'label' => 'Please type the following text',
+                    'label' => '验证码',
                     'captcha' => $this->getRegistrationOptions()->getFormCaptchaOptions(),
                 ),
             ));

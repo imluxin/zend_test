@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Form;
+namespace User\Form;
 
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 use ZfcUser\Options\AuthenticationOptionsInterface;

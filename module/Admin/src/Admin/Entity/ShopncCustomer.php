@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ShopncCustomer
  *
  * @ORM\Table(name="shopnc_customer")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Admin\Repository\ShopncCustomerRepository")
  */
 class ShopncCustomer
 {
@@ -21,18 +21,11 @@ class ShopncCustomer
     private $memberId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="member_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="user_id", type="integer", length=11, nullable=false)
      */
-    private $memberName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="member_pwd", type="string", length=255, nullable=false)
-     */
-    private $memberPwd;
+    private $userId;
 
     /**
      * @var string
@@ -174,50 +167,15 @@ class ShopncCustomer
         return $this->memberId;
     }
 
-    /**
-     * Set memberName
-     *
-     * @param string $memberName
-     * @return ShopncCustomer
-     */
-    public function setMemberName($memberName)
+    public function setUserId($userId)
     {
-        $this->memberName = $memberName;
+        $this->userId = $userId;
 
         return $this;
     }
-
-    /**
-     * Get memberName
-     *
-     * @return string 
-     */
-    public function getMemberName()
+    public function getUserId()
     {
-        return $this->memberName;
-    }
-
-    /**
-     * Set memberPwd
-     *
-     * @param string $memberPwd
-     * @return ShopncCustomer
-     */
-    public function setMemberPwd($memberPwd)
-    {
-        $this->memberPwd = $memberPwd;
-
-        return $this;
-    }
-
-    /**
-     * Get memberPwd
-     *
-     * @return string 
-     */
-    public function getMemberPwd()
-    {
-        return $this->memberPwd;
+        return $this->userId;
     }
 
     /**

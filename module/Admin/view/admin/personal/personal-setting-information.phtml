@@ -1,0 +1,55 @@
+
+<h1>个人信息设置</h1>
+
+<?php if ($this->error): ?>
+    <p class="error">
+        发生错误,请看下面提示.
+    </p>
+<?php endif;?>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('admin_personalcenter',array('action'=>'personalSettingInformation')));
+$form->setAttribute('method', 'post');
+
+echo $this->form()->openTag($form);
+?>
+
+<dl class="zend_form">
+    <dt><?php echo $this->formLabel($form->get('workerName')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('workerName'));
+        echo $this->formElementErrors($form->get('workerName'));
+        ?></dd>
+    <dt><?php echo $this->formLabel($form->get('workerRealname')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('workerRealname'));
+        echo $this->formElementErrors($form->get('workerRealname'));
+        ?></dd>
+    <dt><?php echo $this->formLabel($form->get('workerNickname')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('workerNickname'));
+        echo $this->formElementErrors($form->get('workerNickname'));
+        ?></dd>
+    <dt><?php echo $this->formLabel($form->get('workerPhone')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('workerPhone'));
+        echo $this->formElementErrors($form->get('workerPhone'));
+        ?></dd>
+    <dt><?php echo $this->formLabel($form->get('workerEmail')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('workerEmail'));
+        echo $this->formElementErrors($form->get('workerEmail'));
+        ?></dd>
+    <dt><?php echo $this->formLabel($form->get('wokerQq')); ?></dt>
+    <dd><?php
+        echo $this->formElement($form->get('wokerQq'));
+        echo $this->formElementErrors($form->get('wokerQq'));
+        ?></dd>
+    <dd><?php
+        echo $this->formElement($form->get('submit'));
+        echo $this->formElementErrors($form->get('submit'));
+        ?></dd>
+</dl>
+
+<?php echo $this->form()->closeTag($form); ?>

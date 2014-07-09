@@ -1,0 +1,17 @@
+<h1>通知列表</h1>
+<table style="width: 700px;">
+    <tr>
+        <th>消息内容</th>
+        <th>发送人</th>
+        <th>时间</th>
+    </tr>
+    <?php foreach($shopncMessageList as $key){?>
+    <tr>
+
+        <td><?php echo $key->getMsgContent()?></td>
+        <td><?php echo $key->getMsgFromname()?></td>
+        <td><?php echo date('Y-m-d H:i' ,  $key->getInsertTime())?></td>
+
+    </tr>
+    <?php }?>
+</table>

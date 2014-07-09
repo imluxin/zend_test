@@ -9,13 +9,34 @@
 
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Admin\model\WorkerChartModel;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+
+class IndexController extends BaseController
 {
     public function indexAction()
     {
+        $em = $this->getEntityManager();
+//        $dql = 'SELECT u FROM Admin\Entity\ShopncWorker u WHERE u.workerName = 27583939';
+//        $query = $em->createQuery($dql);
+//        $users = $query->getResult();
+        $model = new WorkerChartModel($em);
+        $test = $model->getWorkerTime('1');
+
+//        foreach($test as $key){
+//            \Doctrine\Common\Util\Debug::dump($key);
+//            echo '<br>';
+//        }
+
+
+
         return new ViewModel();
     }
+
+    private function _get()
+    {
+
+    }
+
 }

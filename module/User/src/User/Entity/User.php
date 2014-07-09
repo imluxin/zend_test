@@ -76,7 +76,7 @@ class User implements UserInterface, ProviderInterface
      * 
      * 用户类型: 1为worker, 2为customer
      */
-    protected $type;
+    protected $type = '2';
 
     /**
      * Initialies the roles variable.

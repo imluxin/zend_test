@@ -14,7 +14,10 @@ return array (
 						'Admin\Controller\Index' => 'Admin\Controller\IndexController',
 						'Admin\Controller\Login' => 'Admin\Controller\LoginController',
 						'Admin\Controller\Album' => 'Admin\Controller\AlbumController',
-						'Admin\Controller\User' => 'Admin\Controller\UserController'
+						'Admin\Controller\User' => 'Admin\Controller\UserController',
+						'Admin\Controller\ActiveClass' => 'Admin\Controller\ActiveClassController',
+						'Admin\Controller\Product' => 'Admin\Controller\ProductController',
+                        'Admin\Controller\Personal' => 'Admin\Controller\PersonalController',
 				)
 		),
 		'router' => array (
@@ -24,7 +27,7 @@ return array (
 								'options' => array (
 										'route' => '/admin',
 										'defaults' => array (
-												'controller' => 'Admin\Controller\Login',
+												'controller' => 'Admin\Controller\Index',
 												'action' => 'index'
 										)
 								)
@@ -53,6 +56,20 @@ return array (
 										)
 								)
 						),
+                        'admin_pesonal' => array (
+                            'type' => 'segment',
+                            'options' => array (
+                                'route' => '/admin/personal[/][:action][/:id]',
+                                'constraints' => array (
+                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'id' => '[0-9]+'
+                                ),
+                                'defaults' => array (
+                                    'controller' => 'Admin/Controller/Personal',
+                                    'action' => 'personalSettingInformation'
+                                )
+                            )
+                        ),
 						'admin_user' => array(
 								'type' => 'segment',
 								'options' => array(
@@ -67,14 +84,38 @@ return array (
 										)
 								)
 						),
-						// The following is a route to simplify getting started creating
-						// new controllers and actions without needing to create a new
-						// module. Simply drop new controllers in, and you can access them
-						// using the path /application/:controller/:action
+						'admin_active_class' => array(
+								'type' => 'segment',
+								'options' => array(
+										'route' => '/admin/activeclass[/][:action][/:id]',
+										'constraints' => array(
+												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'id' => '[0-9]+',
+										),
+										'defaults' => array(
+												'controller' => 'Admin/Controller/ActiveClass',
+												'action' => 'index'
+										)
+								)
+						),
+						'admin_product' => array(
+								'type' => 'segment',
+								'options' => array(
+										'route' => '/admin/product[/][:action][/:id]',
+										'constraints' => array(
+												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'id' => '[0-9]+',
+										),
+										'defaults' => array(
+												'controller' => 'Admin/Controller/Product',
+												'action' => 'index'
+										)
+								)
+						),
 						'application' => array (
 								'type' => 'Literal',
 								'options' => array (
-										'route' => '/application',
+										'route' => '/admin',
 										'defaults' => array (
 												'__NAMESPACE__' => 'Application\Controller',
 												'controller' => 'Index',
@@ -130,6 +171,22 @@ return array (
 				'router' => array (
 						'routes' => array ()
 				)
-		)
+		),
+    	'doctrine' => array (
+    			'driver' => array (
+    					__NAMESPACE__ . '_driver' => array (
+    							'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+    							'cache' => 'array',
+    							'paths' => array (
+    									__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+    							)
+    					),
+    					'orm_default' => array (
+    							'drivers' => array (
+    									__NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+    							)
+    					)
+    			),
+    	),
 
 );

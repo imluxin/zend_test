@@ -36,6 +36,7 @@ return array(
 							'cache' => 'array',
 							'paths' => array (
 									__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+									//__DIR__ . '/../../Admin/src/Admin/Entity'
 							)
 					),
 					'orm_default' => array (
@@ -50,6 +51,7 @@ return array(
         'user_entity_class'       => 'User\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
+//         'use_registration_form_captcha'        => true,
     ),
  
     'bjyauthorize' => array(

@@ -7,36 +7,12 @@ class CustomerForm extends Form
 {
     public function __construct($name = null)
     {
-        parent::__construct('customer');
+        parent::__construct('customer');        
         
         $this->add(array(
             'name' => 'memberId',
             'type' => 'Hidden'
         ));
-        
-        $this->add(array(
-            'name' => 'memberName',
-            'type' => 'Text',
-            'options' => array(
-                'label' => '会员名称',
-            )
-        ));
-        
-        $this->add(array(
-            'name' => 'memberPwd',
-            'type' => 'Text',
-            'options' => array(
-                'label' => '密码',
-            )
-        ));
-        
-        /*$this->add(array(
-        		'name' => 'repwd',
-        		'type' => 'Text',
-        		'options' => array(
-        				'label' => '确认密码',
-        		)
-        ));*/
         
         $this->add(array(
         		'name' => 'realName',
