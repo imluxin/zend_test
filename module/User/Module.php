@@ -13,6 +13,13 @@ use ZfcUser\Controller\RedirectCallback;
 
 class Module
 {
+    public function init(ModuleManager $mm)
+    {
+        $mm->getEventManager()->getSharedManager()->attach(__NAMESPACE__, 'dispatch', function($e){
+        	$e->getTarget()->layout('home/layout');
+        });
+    }
+    
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -32,6 +39,9 @@ class Module
     public function getServiceConfig()
     {
         return array(
+            'invokables' => array(
+                'zfcuser_user_service'              => 'User\Service\User',
+            ),
             'factories' => array(
                 'zfcuser_login_form' => function ($sm) {
                     $options = $sm->get('zfcuser_module_options');
@@ -55,6 +65,13 @@ class Module
                             )),
                             $options
                     ));
+                    return $form;
+                },
+
+                'zfcuser_change_password_form' => function ($sm) {
+                    $options = $sm->get('zfcuser_module_options');
+                    $form = new Form\ChangePassword(null, $sm->get('zfcuser_module_options'));
+                    $form->setInputFilter(new Form\ChangePasswordFilter($options));
                     return $form;
                 },
             ),

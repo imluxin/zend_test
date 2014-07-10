@@ -2,13 +2,13 @@
     <div class="page-header">
         <h2>  <?php echo $this->escapeHtml($title);?>
          
-                    <a class="btn btn-primary" href="<?php echo $this->url('admin_active_class',array('action'=>'add')); ?>">添加</a>
+                    <a class="btn btn-primary" href="<?php echo $this->url('admin_product',array('action'=>'add')); ?>">添加</a>
                     <a class="red_btn btn btn-danger" href="javascript:void(0);">删除</a>
             
         </h2>
     </div>
 	<div class="row-fluid">
-		<form method="get" action="<?php echo $this->url('admin_active_class',array('action'=>'del'));?>" id="Active_form">
+		<form method="get" action="<?php echo $this->url('admin_product',array('action'=>'del'));?>" id="Active_form">
 	    	<table class="table table-hover">
 	        	<thead>
 	        		<tr colspan="10">
@@ -27,15 +27,15 @@
 	            <?php foreach($ac_class as $val){?>
 	            <tr>
 	            	<td>
-	                <input type="checkbox" name="ckid[]" value="<?php echo $val->getClassId();?>" />
+	                <input type="checkbox" name="ckid[]" value="<?php echo $val->proId;?>" />
 	                </td>
-	                <td class="tc"><input type="text" name="sort<?php echo $val->getClassId();?>" value="<?php echo $val->getSort();?>" class="text w30 h20 lh20" /></td>
-	                <td class="tc"><?php echo $this->escapeHtml($val->getClassName());?></td>
+	                <td class="tc"><input type="text" name="sort<?php echo $val->proId;?>" value="<?php echo $val->sort;?>" class="text w30 h20 lh20" /></td>
+	                <td class="tc"><?php echo $this->escapeHtml($val->proName);?></td>
 	                <td class="tc">
-                    <?php echo ($val->getIsShow())?'是':'否';?>
+                    <?php echo ($val->isShow)?'是':'否';?>
                     </td>
 	                <td class="tc">
-	                	<a href="<?php echo $this->url('admin_active_class',array('action'=>'edit','id'=>$val->getClassId()));?>">编辑</a> | <a class="del" val="<?php echo $val->getClassId();?>" href="javascript:void(0);">删除</a>
+	                	<a href="<?php echo $this->url('admin_product',array('action'=>'edit','id'=>$val->proId));?>">编辑</a> | <a class="del" val="<?php echo $val->proId;?>" href="javascript:void(0);">删除</a>
 	                </td>
 	            </tr>
 	            <?php }?>
@@ -81,7 +81,6 @@ $(function(){
 				flg--;
 			}
 		}
-		alert($(this).attr("name"));
 		if(flg<0){flg=0;}
 		if(flg==len){
 			$('#ckAll').attr("checked","checked");
@@ -106,7 +105,7 @@ $(function(){
 	$('.del').click(function(){
 		var id = $(this).attr('val');
 		if(confirm('确认要删除吗')){
-			location.href="<?php echo $this->url('admin_active_class',array('action'=>'del'));?>?ckid="+id
+			location.href="<?php echo $this->url('admin_product',array('action'=>'del'));?>?ckid="+id
 
 		}
 	});
@@ -114,7 +113,7 @@ $(function(){
 		var names = $(this).attr('name');
 		var ids = names.replace("sort","");
 		var val = $(this).val();
-		$.get("<?php echo $this->url('admin_active_class',array('action'=>'sort'));?>",{"id":ids,"sort":val});
+		$.get("<?php echo $this->url('admin_product',array('action'=>'sort'));?>",{"id":ids,"sort":val});
 	});
 });
 </script>

@@ -4,20 +4,18 @@ namespace Home\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Doctrine\ORM\EntityManager;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineModule\Paginator\Adapter\Collection as CollectionAdapter;
+use Zend\Paginator\Paginator;
+
 class BaseController extends AbstractActionController
 {
 	function __construct(){
-		echo date('Y-m-d','1402552000');
-	    /* echo '<pre>';
-	    print_r($this->getServiceLocator()->get('Home\AuthService'));
-	    exit; */
 	}
 
     public function _get_auth_service()
     {
-
-//         return $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-        return $this->getServiceLocator()->get('Home_AuthService');
+        return false;
     }
 
     /**
@@ -36,5 +34,19 @@ class BaseController extends AbstractActionController
             $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         }
         return $this->em;
+    }
+    
+    public function _set_paginator($array, $item_per_page)//, $total)
+    {
+        $doctrine_collection = new ArrayCollection($array);
+        $adapter = new CollectionAdapter($doctrine_collection);
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page'))
+                  ->setItemCountPerPage($item_per_page)
+                  //->setPageRange($total)        
+        ;
+        
+        return $paginator;
     }
 }

@@ -36,12 +36,13 @@ class Login extends ProvidesEventsForm
         foreach ($this->getAuthenticationOptions()->getAuthIdentityFields() as $mode) {
             $label = (!empty($label) ? $label . ' or ' : '') . ucfirst($mode);
         }
-        $emailElement->setLabel($label);
+        $identify_fields_arr = array('Username'=>'用户名', 'Email'=>'电子邮箱');
+        $emailElement->setLabel($identify_fields_arr[$label]);
         //
         $this->add(array(
             'name' => 'credential',
             'options' => array(
-                'label' => 'Password',
+                'label' => '密码',
             ),
             'attributes' => array(
                 'type' => 'password',
@@ -59,7 +60,7 @@ class Login extends ProvidesEventsForm
 
         $submitElement = new Element\Button('submit');
         $submitElement
-            ->setLabel('Sign In')
+            ->setLabel('登陆')
             ->setAttributes(array(
                 'type'  => 'submit',
             ));

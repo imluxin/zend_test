@@ -19,7 +19,7 @@ class ChangePassword extends ProvidesEventsForm
     {
         $this->setAuthenticationOptions($options);
         parent::__construct($name);
-
+        
         $this->add(array(
             'name' => 'identity',
             'options' => array(
@@ -33,7 +33,7 @@ class ChangePassword extends ProvidesEventsForm
         $this->add(array(
             'name' => 'credential',
             'options' => array(
-                'label' => 'Current Password',
+                'label' => '当前密码',
             ),
             'attributes' => array(
                 'type' => 'password',
@@ -43,7 +43,7 @@ class ChangePassword extends ProvidesEventsForm
         $this->add(array(
             'name' => 'newCredential',
             'options' => array(
-                'label' => 'New Password',
+                'label' => '新密码',
             ),
             'attributes' => array(
                 'type' => 'password',
@@ -53,7 +53,7 @@ class ChangePassword extends ProvidesEventsForm
         $this->add(array(
             'name' => 'newCredentialVerify',
             'options' => array(
-                'label' => 'Verify New Password',
+                'label' => '确认新密码',
             ),
             'attributes' => array(
                 'type' => 'password',

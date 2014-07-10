@@ -24,20 +24,15 @@ class PersonalController extends BaseController
      * */
     public function personalMessageListAction()
     {
-        $userId = 1;
-        $entityManager = $this->getEntityManager();
-        $dql = "SELECT ShopncMessage FROM Admin\Entity\ShopncMessage".
-            "WHERE msgTo=1".
-            "ORDER BY insert_time DESC";
-        $query = $entityManager->createQuery($dql)
-            ->setFirstResult(0)
-            ->setMaxResults(1);
-        $paginator = new Paginator($query, $fetchJoinCollection = true);
-        $bugs = $query->getArrayResult();
-        echo '<pre>';
-        var_dump($bugs);
-        exit;
-        return array('shopncMessageList'=>$shopncMessageList);
+        $request = $this->getRequest();
+        if($request->isGet()){
+            $pageNumberOld = $request->getQuery()->page;
+        }
+        $maxlist = 2;
+        $dql = "SELECT sm FROM Admin\Entity\ShopncMessage sm WHERE sm.msgTo = 1 ORDER BY sm.insertTime DESC ";
+        $vm = $this->fenye($dql,$maxlist,$pageNumberOld);
+        return $vm;
+
 
     }
 

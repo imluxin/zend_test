@@ -37,7 +37,7 @@ class Register extends Base
                 'name' => 'type',
                 'type' => 'Zend\Form\Element\Hidden',
                 'attributes' => array(
-                        'value' => '3',
+                        'value' => '2',
                 ),
                 'options' => array(
                         'label' => '用户类型',
@@ -53,18 +53,26 @@ class Register extends Base
         ));
         
         $this->add(array(
-        		'name' => 'memberEmail',
+        		'name' => 'memberAddress',
         		'type' => 'Text',
         		'options' => array(
-        				'label' => '电子邮箱',
+        				'label' => '详细地址',
         		)
         ));
         
         $this->add(array(
-        		'name' => 'memberTelphone',
+        	'name' => 'memberTelphone',
+            'type' => 'Text',
+            'options' => array(
+                            'label' => '固定电话'	
+                        )
+        ));
+        
+        $this->add(array(
+        		'name' => 'memberPhone',
         		'type' => 'Text',
         		'options' => array(
-        				'label' => '手机号',
+        				'label' => '移动电话',
         		)
         ));
         
@@ -77,18 +85,21 @@ class Register extends Base
         ));
         
         $this->add(array(
-        		'name' => 'memberWebsite',
-        		'type' => 'Text',
-        		'options' => array(
-        				'label' => '网站',
-        		)
+        	'name' => 'memberMsn',
+            'type' => 'Text',
+            'options' => array(
+                            'label' => 'MSN'	
+                        )
         ));
         
         $this->add(array(
-        		'name' => 'memberAddress',
-        		'type' => 'Text',
+        		'name' => 'memberWebsite',
+        		'type' => 'Url',
         		'options' => array(
-        				'label' => '详细地址',
+        				'label' => '使用域名',
+        		),
+                'attributes' => array(
+        			'value' => 'http://'
         		)
         ));
         

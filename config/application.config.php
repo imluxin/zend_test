@@ -24,7 +24,13 @@ return array(
             './module',
             './vendor'
             ),
-        'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php'),
+        // An array of paths from which to glob configuration files after
+        // modules are loaded. These effectively override configuration
+        // provided by modules themselves. Paths may use GLOB_BRACE notation.
+        'config_glob_paths' => array(
+            'config/autoload/{,*.}{global,local,database,cache}.php',
+        ),
+        //'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php'),
         'config_cache_enabled' => false,
         'config_cache_key' => 'sdf987sadfs8ad9fasdf80as8df0as',
         'module_map_cache_enabled' => false,

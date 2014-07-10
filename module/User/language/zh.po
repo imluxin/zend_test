@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZfcUser\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-26 13:38+0100\n"
+"PO-Revision-Date: 2014-07-10 17:29+0800\n"
+"Last-Translator: Belair <contact@ebelair.fr>\n"
+"Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /var/www/ZfcUser\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: src/ZfcUser/language/msgIds.php:6
+msgid "Username"
+msgstr "用户名"
+
+#: src/ZfcUser/language/msgIds.php:7
+msgid "Email"
+msgstr "电子邮箱"
+
+#: src/ZfcUser/language/msgIds.php:8
+msgid "New Email"
+msgstr "新的电子邮箱"
+
+#: src/ZfcUser/language/msgIds.php:9
+msgid "Verify New Email"
+msgstr "确认电子邮箱"
+
+#: src/ZfcUser/language/msgIds.php:10
+msgid "Display Name"
+msgstr "昵称"
+
+#: src/ZfcUser/language/msgIds.php:11
+msgid "Password"
+msgstr "密码"
+
+#: src/ZfcUser/language/msgIds.php:12
+msgid "Password Verify"
+msgstr "确认密码"
+
+#: src/ZfcUser/language/msgIds.php:13
+msgid "Current Password"
+msgstr "当前密码"
+
+#: src/ZfcUser/language/msgIds.php:14
+msgid "Verify New Password"
+msgstr "确认密码"
+
+#: src/ZfcUser/language/msgIds.php:15
+msgid "New Password"
+msgstr "新密码"
+
+#: src/ZfcUser/language/msgIds.php:16
+msgid "Please type the following text"
+msgstr "请输入下面的内容"
+
+#: src/ZfcUser/language/msgIds.php:17
+msgid "Submit"
+msgstr "提交"
+
+#: src/ZfcUser/language/msgIds.php:18 view/zfc-user/user/login.phtml:1
+msgid "Sign In"
+msgstr "登陆"
+
+#: src/ZfcUser/language/msgIds.php:19 view/zfc-user/user/register.phtml:1
+msgid "Register"
+msgstr "注册"
+
+#: src/ZfcUser/language/msgIds.php:20
+msgid "No record matching the input was found"
+msgstr "无记录"
+
+#: src/ZfcUser/language/msgIds.php:21
+msgid "A record matching the input was found"
+msgstr "找到一条记录"
+
+#: src/ZfcUser/language/msgIds.php:22
+msgid "Authentication failed. Please try again."
+msgstr "登陆失败. 请稍后再试."
+
+#: view/zfc-user/user/login.phtml:31
+msgid "Not registered?"
+msgstr "还未注册?"
+
+#: view/zfc-user/user/login.phtml:31
+msgid "Sign up!"
+msgstr "注册"
+
+#: view/zfc-user/user/changeemail.phtml:1
+#, php-format
+msgid "Change Email for %s"
+msgstr "修改邮箱 %s"
+
+#: view/zfc-user/user/changeemail.phtml:3
+msgid "Email address changed successfully."
+msgstr "电子邮箱更改成功."
+
+#: view/zfc-user/user/changeemail.phtml:5
+msgid "Unable to update your email address. Please try again."
+msgstr "更改电子邮箱失败. 请稍候再试."
+
+#: view/zfc-user/user/changepassword.phtml:1
+#, php-format
+msgid "Change Password for %s"
+msgstr "修改密码 %s"
+
+#: view/zfc-user/user/changepassword.phtml:3
+msgid "Password changed successfully."
+msgstr "密码修改成功."
+
+#: view/zfc-user/user/changepassword.phtml:5
+msgid "Unable to update your password. Please try again."
+msgstr "修改密码失败. 请重试."
+
+#: view/zfc-user/user/index.phtml:2
+msgid "Hello"
+msgstr "您好"
+
+#: view/zfc-user/user/index.phtml:3
+msgid "Sign Out"
+msgstr "退出"

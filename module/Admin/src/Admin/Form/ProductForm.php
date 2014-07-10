@@ -3,21 +3,21 @@ namespace Admin\Form;
 
 use Zend\Form\Form;
 
-class ActiveClassForm extends Form
+class ProductForm extends Form
 {
     public function __construct($name = null)
     {
-        parent::__construct('active_form');
+        parent::__construct('product_form');
         $this->add(array(
-        		'name' => 'classId',
+        		'name' => 'proId',
         		'type' => 'Hidden',
         ));
 
         $this->add(array(
-            'name' => 'className',
+            'name' => 'proName',
             'type' => 'Text',
             'attributes'=>array(
-            	'id'=>'class_name',
+            	'id'=>'pro_name',
             	'class' => 'text w200',
         	),
         ));
@@ -26,10 +26,10 @@ class ActiveClassForm extends Form
         		'type' => 'Radio',
         		'name' => 'isShow',
         		'options' => array(
-        			'value_options' => array(
-        				'0' => '否',
-        				'1' => '是',
-        			),
+        				'value_options' => array(
+        						'0' => '否',
+        						'1' => '是',
+        				),
         		)
         ));
 

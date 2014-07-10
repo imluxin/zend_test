@@ -77,10 +77,7 @@ class UserController extends BaseController
      * User page
      */
     public function indexAction()
-    {
-//         $r = $this->getEntityManager()->getRepository('Admin\Entity\ShopncWorksWorker');
-//         $t = $r->getAllActiveByMemberId('7');
-//         var_dump($t);die();
+    {            	
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
             return $this->redirect()->toRoute(static::ROUTE_LOGIN);
         }
@@ -186,6 +183,7 @@ class UserController extends BaseController
             // redirect to the login redirect route
             return $this->redirect()->toRoute($this->getOptions()->getLoginRedirectRoute());
         }
+        
         // if registration is disabled
         if (!$this->getOptions()->getEnableRegistration()) {
             return array('enableRegistration' => false);
@@ -228,18 +226,37 @@ class UserController extends BaseController
         }
 
 
+        // 增加客户信息
         if (!empty($user)){
-            $customer = new ShopncCustomer();
-            $customer->setMemberEmail($post['email'])
-                ->setRealName($post['realName'])
-                ->setMemberTelphone($post['memberTelphone'])
-                ->setMemberQq($post['memberQq'])
-                ->setMemberWebsite($post['memberWebsite'])
-                ->setMemberAddress($post['memberAddress'])
-                ->setUserId($user->getId())
-            ;
-            $this->getEntityManager()->persist($customer);
-            $this->getEntityManager()->flush();
+            try {
+                $customer = new ShopncCustomer();
+                $customer->setMemberEmail($post['email'])
+                    ->setMemberName($post['username'])
+                    ->setRealName($post['realName'])
+                    ->setMemberTelphone($post['memberTelphone'])
+                    ->setMemberQq($post['memberQq'])
+                    ->setMemberMsn($post['memberMsn'])
+                    ->setMemberWebsite($post['memberWebsite'])
+                    ->setMemberAddress($post['memberAddress'])
+                    ->setUserId($user->getId())
+                ;
+                $this->getEntityManager()->persist($customer);
+                $this->getEntityManager()->flush();
+            } catch (\Exception $e) {
+                $saved_user = $this->getEntityManager()->find('User\Entity\User', $user->getId());
+                if ($saved_user) {
+                    $this->getEntityManager()->remove($saved_user);
+                    $this->getEntityManager()->flush();
+                }
+            }
+            
+            // 增加客户权限
+            if (!empty($user)) {
+                $role = $this->getEntityManager()->find('User\Entity\Role', '4');
+                $user->addRole($role);
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
+            }
         }
 
         if ($service->getOptions()->getLoginAfterRegistration()) {
@@ -262,7 +279,7 @@ class UserController extends BaseController
      * Change the users password
      */
     public function changepasswordAction()
-    {
+    {        
         // if the user isn't logged in, we can't change password
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
             // redirect to the login redirect route

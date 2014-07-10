@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Service\Exception;
+namespace User\Service\Exception;
 
 interface ExceptionInterface
 {

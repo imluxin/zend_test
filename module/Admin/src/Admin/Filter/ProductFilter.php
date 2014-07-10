@@ -2,12 +2,12 @@
 namespace Admin\Filter;
 
 use Zend\InputFilter\InputFilter;
-class ShopncActiveClassFilter extends InputFilter
+class ProductFilter extends InputFilter
 {
 	public function __construct()
 	{
 		$this->add(array(
-				'name' => 'classId',
+				'name' => 'proId',
 				'required' => true,
 				'filters' => array(
 						array('name' => 'Int')
@@ -15,7 +15,7 @@ class ShopncActiveClassFilter extends InputFilter
 		));
 
 		$this->add(array(
-				'name' => 'className',
+				'name' => 'proName',
 				'required' => true,
 				'filters' => array(
 						array('name' => 'StripTags'),

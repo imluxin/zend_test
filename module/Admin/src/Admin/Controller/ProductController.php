@@ -2,36 +2,36 @@
 namespace Admin\Controller;
 
 use Admin\Controller\BaseController;
-use Admin\Entity\ShopncClass;
-use Admin\Filter\ShopncActiveClassFilter;
-use Admin\Form\ActiveClassForm;
+use Admin\Entity\ShopncProduct;
+use Admin\Filter\ProductFilter;
+use Admin\Form\ProductForm;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class ActiveClassController extends BaseController{
+class ProductController extends BaseController{
 
 	/**
-	 * 分类列表
+	 * 产品列表
 	 * */
 	public function indexAction(){
-		$query = $this->getEntityManager()->createQuery("select cl from Admin\Entity\ShopncClass cl order by cl.sort asc");
+		$query = $this->getEntityManager()->createQuery("select cl from Admin\Entity\ShopncProduct cl order by cl.sort asc");
 		$res = $query->getResult();
 		return array(
 				'ac_class'=>$res,
-				'title'=>'咨询分类列表'
+				'title'=>'产品列表'
 				);
 	}
 
 	/**
-	 * 添加分类
+	 * 添加产品
 	 * */
 	public function addAction(){
-		$form = new ActiveClassForm();
+		$form = new ProductForm();
 		$form->get('submit')->setValue('提交');
 
 		$request = $this->getRequest();
 		if ($request->isPost()) {
-			$ac_class = new ShopncClass();
-			$filter = new ShopncActiveClassFilter();
+			$ac_class = new ShopncProduct();
+			$filter = new ProductFilter();
 			$form->setInputFilter($filter);
 			$form->setData($request->getPost());
 			if ($form->isValid()) {
@@ -39,50 +39,48 @@ class ActiveClassController extends BaseController{
 				$this->getEntityManager()->persist($ac_class);
 				$this->getEntityManager()->flush();
 
-				return $this->redirect()->toRoute('admin_active_class');
+				return $this->redirect()->toRoute('admin_product');
 			}
 		}
 		return array(
 				'form'=>$form,
-				'title'=>'添加咨询分类',
+				'title'=>'添加产品',
 		);
 	}
 
 	/**
-	 * 编辑分类
+	 * 编辑产品
 	 * */
 	public function editAction(){
 		$id = (int)$this->params()->fromRoute('id', 0);
 		if (!$id) {
-			return $this->redirect()->toRoute('admin_active_class');
+			return $this->redirect()->toRoute('admin_product');
 		}
 		try {
-			$ac = $this->getEntityManager()->find('Admin\Entity\ShopncClass', $id);
+			$ac = $this->getEntityManager()->find('Admin\Entity\ShopncProduct', $id);
 		} catch (\Exception $ex) {
-			return $this->redirect()->toRoute('admin_active_class');
+			return $this->redirect()->toRoute('admin_product');
 		}
 
-		$form = new ActiveClassForm();
+		$form = new ProductForm();
 		$form->bind($ac);
-
 		$form->get('submit')->setAttribute('value', '提交');
 
 		$request = $this->getRequest();
 		if ($request->isPost()) {
 			$form->setData($request->getPost());
-
 			if ($form->isValid()) {
 				$form->bindValues();
 				$this->getEntityManager()->flush();
 
-				return $this->redirect()->toRoute('admin_active_class');
+				return $this->redirect()->toRoute('admin_product');
 			}
 		}
-		return array('id'=>$id, 'form'=>$form,'title'=>'编辑咨询分类');
+		return array('id'=>$id, 'form'=>$form,'title'=>'编辑产品');
 	}
 
 	/**
-	 * 删除分类
+	 * 删除产品
 	 * */
 	public function delAction(){
 		$request = $this->getRequest();
@@ -91,31 +89,31 @@ class ActiveClassController extends BaseController{
 		$where = '';
 		if(is_array($id) && !empty($id)){
 			$id = implode(',',$id);
-			$where = " where ac.classId in ({$id})";
+			$where = " where p.proId in ({$id})";
 		}else if(intval($id)){
-			$where = " where ac.classId='{$id}'";
+		    $where = " where p.proId='{$id}'";
 		}else{
-			return $this->redirect()->toRoute('admin_active_class');
+			return $this->redirect()->toRoute('admin_product');
 		}
-		$query = $this->getEntityManager()->createQuery("delete Admin\Entity\ShopncClass ac {$where}");
+		$query = $this->getEntityManager()->createQuery("delete Admin\Entity\ShopncProduct p {$where}");
 		$res = $query->getResult();
 
-		return $this->redirect()->toRoute('admin_active_class');
+		return $this->redirect()->toRoute('admin_product');
 	}
 
 	/**
-	 * 分类排序
+	 * 产品排序
 	 * */
 	public function sortAction(){
 		$request = $this->getRequest();
 		$id = (int)$request->getQuery('id');
 		if ($id) {
-			$ac_class = $this->getEntityManager()->find('Admin\Entity\ShopncClass', $id);
+			$ac_class = $this->getEntityManager()->find('Admin\Entity\ShopncProduct', $id);
 			$ac_class->setSort($request->getQuery('sort'));
 			$this->getEntityManager()->persist($ac_class);
 			$this->getEntityManager()->flush();
 		}
-		return $this->redirect()->toRoute('admin_active_class');
+		return $this->redirect()->toRoute('admin_product');exit;
 	}
 
 }

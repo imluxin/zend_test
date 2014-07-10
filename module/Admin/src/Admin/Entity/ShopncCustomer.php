@@ -44,9 +44,23 @@ class ShopncCustomer
     /**
      * @var string
      *
+     * @ORM\Column(name="member_msn", type="string", length=255, nullable=true)
+     */
+    private $memberMsn;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="member_website", type="string", length=255, nullable=true)
      */
     private $memberWebsite;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="member_name", type="string", length=255, nullable=true)
+     */
+    private $memberName;
 
     /**
      * @var string
@@ -222,6 +236,30 @@ class ShopncCustomer
     public function getMemberQq()
     {
         return $this->memberQq;
+    }
+
+    public function setMemberName($memberName)
+    {
+        $this->memberName = $memberName;
+
+        return $this;
+    }
+
+    public function getMemberName()
+    {
+        return $this->memberName;
+    }
+
+    public function setMemberMsn($memberMsn)
+    {
+        $this->memberMsn = $memberMsn;
+
+        return $this;
+    }
+
+    public function getMemberMsn()
+    {
+        return $this->memberMsn;
     }
 
     /**

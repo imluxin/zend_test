@@ -6,6 +6,7 @@ return array(
         'invokables' => array(
             'Home\Controller\Index' => 'Home\Controller\IndexController',
             'Home\Controller\Login' => 'Home\Controller\LoginController',
+            'Home\Controller\Consultative' => 'Home\Controller\ConsultativeController',
         ),
     ),
     'router' => array(
@@ -43,6 +44,17 @@ return array(
                     ),
                 ),
             ),
+			'home_consultative' => array (
+					'type' => 'Segment',
+					'options' => array (
+							'route' => '/consultative[/][page/:page]',
+							'defaults' => array (
+									'controller' => 'Home\Controller\Consultative',
+									'action' => 'index',
+							        'page' => 1,
+							)
+					)
+			),
         ),
     ),
     'view_manager' => array(
@@ -68,7 +80,6 @@ return array(
 			),
 			'aliases' => array (
 					'translator' => 'MvcTranslator',
-//                     'Zend\Authentication\AuthenticationService' => 'Home_AuthService',
 			),
 	),
 	'doctrine' => array (
@@ -78,6 +89,7 @@ return array(
 							'cache' => 'array',
 							'paths' => array (
 									__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+									//__DIR__ . '/../../Admin/src/Admin/Entity'
 							)
 					),
 					'orm_default' => array (

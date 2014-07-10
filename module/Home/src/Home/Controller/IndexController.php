@@ -14,6 +14,16 @@ class IndexController extends BaseController
 {
     public function indexAction()
     { 
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+            //get the email of the user
+            echo $this->zfcUserAuthentication()->getIdentity()->getEmail();
+            //get the user_id of the user
+            echo $this->zfcUserAuthentication()->getIdentity()->getId();
+            //get the username of the user
+            echo $this->zfcUserAuthentication()->getIdentity()->getUsername();
+            //get the display name of the user
+            echo $this->zfcUserAuthentication()->getIdentity()->getDisplayname();
+        }
         return array();
     }
 

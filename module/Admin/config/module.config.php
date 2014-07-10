@@ -87,7 +87,7 @@ return array (
 						'admin_active_class' => array(
 								'type' => 'segment',
 								'options' => array(
-										'route' => '/admin/activeclass[/][:action][/:id]',
+										'route' => '/admin/activeclass[/][:action][/:id][/:ckid][/:sort]',
 										'constraints' => array(
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
 												'id' => '[0-9]+',

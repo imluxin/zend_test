@@ -14,5 +14,10 @@ class AlbumRepository extends EntityRepository
         
         return $result;
     }
+    
+    public function go_test()
+    {
+        return 'test album';
+    }
 }
 

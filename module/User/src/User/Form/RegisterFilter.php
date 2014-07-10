@@ -101,6 +101,34 @@ class RegisterFilter extends ProvidesEventsInputFilter
             ),
         ));
 
+//         $this->add(array(
+//             'name'       => 'memberAddress',
+//             'required'   => true,
+//             'filters'    => array(array('name' => 'StringTrim')),
+//             'validators' => array(
+//                 array(
+//                     'name'    => 'StringLength',
+//                     'options' => array(
+//                         'max' => 255,
+//                     ),
+//                 ),
+//             ),
+//         ));
+
+//         $this->add(array(
+//             'name'       => 'memberWebsite',
+//             'required'   => true,
+//             'filters'    => array(array('name' => 'StringTrim')),
+//             'validators' => array(
+//                 array(
+//                     'name'    => 'StringLength',
+//                     'options' => array(
+//                         'max' => 255,
+//                     ),
+//                 ),
+//             ),
+//         ));
+
         $this->getEventManager()->trigger('init', $this);
     }
 

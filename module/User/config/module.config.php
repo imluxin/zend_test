@@ -36,7 +36,6 @@ return array(
 							'cache' => 'array',
 							'paths' => array (
 									__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
-									//__DIR__ . '/../../Admin/src/Admin/Entity'
 							)
 					),
 					'orm_default' => array (
@@ -51,7 +50,9 @@ return array(
         'user_entity_class'       => 'User\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
+        'enable_username' => true,
 //         'use_registration_form_captcha'        => true,
+        'auth_identity_fields' => array( 'username' ),
     ),
  
     'bjyauthorize' => array(
@@ -65,6 +66,24 @@ return array(
                 'role_entity_class' => 'User\Entity\Role',
             ),
         ),
+    ),
+    'translator' => array(
+        'locale' => 'zh',
+        'translation_file_patterns' => array(
+            // zend form 验证消息
+            array(
+                'type'        => 'phparray',
+                'base_dir'    => __DIR__ . '/../../../vendor/zendframework/zendframework/resources/languages/',
+                'pattern'     => '/%s/Zend_Validate.php',
+                'text_domain' => 'default'
+            ),
+            // zfcuser 验证消息
+            array(
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ),
+        )
     ),
     'router' => array(
         'routes' => array(

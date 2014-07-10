@@ -1,0 +1,16 @@
+<h1>咨询管理</h1>
+
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+  <li><?php echo $item->getActiveId(); ?> - <?php echo $item->getActiveTitle(); ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    array('partial/paginator_search.phtml', 'Home'),
+                                    array('route' => 'home_consultative')
+); ?>
+

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcUser\Service;
+namespace User\Service;
 
 use Zend\Authentication\AuthenticationService;
 use Zend\Form\Form;
@@ -71,6 +71,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $form->setHydrator($this->getFormHydrator());
         $form->bind($user);
         $form->setData($data);
+        
         if (!$form->isValid()) {
             return false;
         }
