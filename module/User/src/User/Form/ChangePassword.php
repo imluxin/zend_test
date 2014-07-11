@@ -63,7 +63,7 @@ class ChangePassword extends ProvidesEventsForm
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
-                'value' => 'Submit',
+                'value' => '提交',
                 'type'  => 'submit'
             ),
         ));

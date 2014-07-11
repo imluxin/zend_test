@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZfcUser\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-26 13:38+0100\n"
-"PO-Revision-Date: 2014-07-10 17:29+0800\n"
+"PO-Revision-Date: 2014-07-11 11:56+0800\n"
 "Last-Translator: Belair <contact@ebelair.fr>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: fr_FR\n"
@@ -77,7 +77,7 @@ msgstr "无记录"
 
 #: src/ZfcUser/language/msgIds.php:21
 msgid "A record matching the input was found"
-msgstr "找到一条记录"
+msgstr "该记录已经存在"
 
 #: src/ZfcUser/language/msgIds.php:22
 msgid "Authentication failed. Please try again."

@@ -5,6 +5,7 @@ namespace User\Form;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
+use Zend\Captcha\Image;
 
 class Base extends ProvidesEventsForm
 {
@@ -48,7 +49,8 @@ class Base extends ProvidesEventsForm
                 'label' => '登陆密码',
             ),
             'attributes' => array(
-                'type' => 'password'
+                'type' => 'password',
+                'id'   => 'password'
             ),
         ));
 
@@ -58,18 +60,32 @@ class Base extends ProvidesEventsForm
                 'label' => '确认密码',
             ),
             'attributes' => array(
-                'type' => 'password'
+                'type' => 'password',
             ),
         ));
 
         if ($this->getRegistrationOptions()->getUseRegistrationFormCaptcha()) {
+            $captcha_image = new Image(array(
+            	'font' => './public/captcha/font/4.ttf',
+                'imgDir' => 'public/captcha/images/',
+                'imgUrl' => '/captcha/images/',
+                'dotNoiseLevel' => 0,
+                'lineNoiseLevel' => 0,
+                'width' => 100,
+                'height' => 30,
+                'fsize' => 16,
+                'wordLen' => 4,
+            ));
             $this->add(array(
                 'name' => 'captcha',
                 'type' => 'Zend\Form\Element\Captcha',
                 'options' => array(
                     'label' => '验证码',
-                    'captcha' => $this->getRegistrationOptions()->getFormCaptchaOptions(),
+                    'captcha' => $captcha_image,//$this->getRegistrationOptions()->getFormCaptchaOptions(),
                 ),
+                'attributes' => array(
+                	'maxlength' => '4'
+                )
             ));
         }
 

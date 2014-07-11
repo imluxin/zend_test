@@ -241,6 +241,19 @@ class ShopncWorkGrab
     {
         return $this->workOther;
     }
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function populate($data = array())
+    {
+        foreach ($data as $key => $val) {
+            if (property_exists($this, $key)) {
+                $this->$key = ($val !== null) ? $val : null;
+            }
+        }
+    }
 
 
 }

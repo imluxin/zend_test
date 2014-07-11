@@ -100,34 +100,136 @@ class RegisterFilter extends ProvidesEventsInputFilter
                 ),
             ),
         ));
-
-//         $this->add(array(
-//             'name'       => 'memberAddress',
-//             'required'   => true,
-//             'filters'    => array(array('name' => 'StringTrim')),
-//             'validators' => array(
-//                 array(
-//                     'name'    => 'StringLength',
-//                     'options' => array(
-//                         'max' => 255,
-//                     ),
-//                 ),
-//             ),
-//         ));
-
-//         $this->add(array(
-//             'name'       => 'memberWebsite',
-//             'required'   => true,
-//             'filters'    => array(array('name' => 'StringTrim')),
-//             'validators' => array(
-//                 array(
-//                     'name'    => 'StringLength',
-//                     'options' => array(
-//                         'max' => 255,
-//                     ),
-//                 ),
-//             ),
-//         ));
+        
+        // profile filters
+         
+        $this->add(array(
+                'name' => 'realName',
+                'required' => false,
+                'validators' => array(
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 1,
+                                )
+                        )
+                )
+        ));
+         
+        $this->add(array(
+                'name' => 'memberTelphone',
+                'required' => false,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 7,
+                                        'max' => 11,
+                                )
+                        )
+                )
+        ));
+         
+        $this->add(array(
+                'name' => 'memberPhone',
+                'required' => true,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array('name' => 'Digits'),
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 11,
+                                        'max' => 11,
+                                )
+                        )
+                )
+        ));
+                  
+        $this->add(array(
+                'name' => 'memberQq',
+                'required' => true,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 1,
+                                        'max' => 100,
+                                )
+                        )
+                )
+        ));
+         
+        $this->add(array(
+                'name' => 'memberMsn',
+                'required' => false,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 1,
+                                        'max' => 100,
+                                )
+                        )
+                )
+        ));
+         
+        $this->add(array(
+                'name' => 'memberAddress',
+                'required' => true,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 1,
+                                )
+                        )
+                )
+        ));
+         
+        $this->add(array(
+                'name' => 'memberWebsite',
+                'required' => true,
+                'filters' => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                        array('name' => 'Uri'),
+                        array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'min' => 1,
+                                )
+                        )
+                )
+        ));
 
         $this->getEventManager()->trigger('init', $this);
     }

@@ -44,6 +44,7 @@ class Register extends Base
                 )
         ));
         
+        // 增加 用户信息
         $this->add(array(
         		'name' => 'realName',
         		'type' => 'Text',

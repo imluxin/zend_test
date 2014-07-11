@@ -4,7 +4,7 @@ namespace Admin\Controller;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Zend\Mvc\Controller\AbstractActionController;
 use Doctrine\ORM\EntityManager;
-
+use Zend\View\Helper\ViewModel;
 class BaseController extends AbstractActionController
 {
 	function __construct(){
@@ -45,8 +45,11 @@ class BaseController extends AbstractActionController
      * $maxlist 每页显示条数
      * $pageNumberOld 当前页数
      * */
-    public function fenYe($dql,$maxlist,$pageNumberOld=1){
+    public function fenye($dql,$maxlist,$pageNumberOld){
         $firstResult = 0;
+        if($pageNumberOld == null){
+            $pageNumberOld = 1;
+        }
         if($pageNumberOld == 1){
             $firstResult = 0;
         } else {
@@ -64,7 +67,6 @@ class BaseController extends AbstractActionController
         $paginator->setCurrentPageNumber($pageNumberOld)->setItemCountPerPage($maxlist);
         $vm = new \Zend\View\Model\ViewModel();
         $vm->setVariables(array('paginator'=>$paginator,'bugs'=>$bugs));
-        $vm->setTemplate('admin/personal/personal-message-list');
         return $vm;
     }
 }

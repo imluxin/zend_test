@@ -74,6 +74,7 @@ class Module
                     $form->setInputFilter(new Form\ChangePasswordFilter($options));
                     return $form;
                 },
+                
             ),
         );
     }

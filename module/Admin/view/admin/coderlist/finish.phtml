@@ -1,0 +1,75 @@
+<div class="page-header ">
+    <h4>
+        <div class="pull-right">
+            <?php
+            $form = $this->form;
+            echo $this->form()->openTag($form);
+            echo $this->formselect($form->get('orderby'));
+            echo $this->formselect($form->get('orderasc'));
+            echo '<input class="btn" type="submit" value="搜索">';
+            echo $this->form()->closeTag($form);
+            ?>
+        </div>
+
+        已提交的任务
+        <small>( {$page_count} )</small>
+    </h4>
+</div>
+<br>
+
+<table class="table table-hover">
+    <thead>
+    <tr class="info" style="background-color:#f4f4f4;">
+        <th>#</th>
+        <th>标题</th>
+        <th>发起人</th>
+        <th>优先级</th>
+        <th>任务所得积分</th>
+        <th>任务开始时间</th>
+        <th>任务结束时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php if (!empty($this->list) && is_array($this->list)) { ?>
+        <?php foreach ($this->list as $vo): ?>
+            <tr>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= $vo['workId'] ?></a>
+                </td>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= $vo['workTitle'] ?></a></td>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= $vo['serverName'] ?></a></td>
+                <td>
+                    <?php
+                    switch ($vo['workPriority']) {
+                        case '0':
+                            echo '<span class="label label - success">普通</span>';
+                            break;
+                        case '1':
+                            echo '<span class="label label - warning">较急</span>';
+                            break;
+                        case '2':
+                            echo '<span class="label label - important">急</span>';
+                            break;
+                        case '3':
+                            echo '<span class="label label - info">加急</span>';
+                            break;
+                        case '4':
+                            echo ' <span class="label label - inverse">马上解决</span>';
+                            break;
+                    }
+                    ?>
+                </td>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= $vo['workPoints'] ?></a></td>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= date("Y-m-d H:i", $vo['workStarttime']) ?></a></td>
+                <td><a href="<?= $this->url('workinfo', array('id' => $vo['workId'])) ?>"
+                       class="tips"><?= date("Y-m-d H:i", $vo['workEndtime']) ?></a></td>
+            </tr>
+        <?php endforeach ?>
+    <?php } ?>
+    </tbody>
+</table>
+{$page}

@@ -14,6 +14,7 @@ $form = $this->registerForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/register'));
 $form->setAttribute('method', 'post');
+$form->setAttribute('id', 'register_form');
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -100,6 +101,11 @@ $form->setAttribute('method', 'post');
         <?php echo $this->formElement($e);
               echo $this->formElementErrors($e);
         ?>
+        <?php if (isset($empty_phone_number)) :?>
+        <ul>
+        <li>固定电话和手机号码必须填写一项.</li>
+        </ul>
+        <?php endif;?>
     </td>
   </tr>
   
@@ -133,7 +139,17 @@ $form->setAttribute('method', 'post');
     </td>
   </tr>
   
+  <tr>
+    <?php $e = $form->get('captcha');?>
+    <td><?php echo $this->formLabel($e); ?></td>
+    <td>
+        <?php echo $this->formCaptcha($e);
+              echo $this->formElementErrors($e);
+        ?>
+    </td>
+  </tr>
   
+      <input name="agree" type="checkbox" id="clause" value="1" checked="checked">
   
   <tr>
     <?php $e = $form->get('submit');?>
@@ -143,15 +159,151 @@ $form->setAttribute('method', 'post');
     </td>
   </tr>
   
+  
 </table>
-
-
-        <?php /*if ($element instanceof Zend\Form\Element\Button): ?>
-            <dd><?php echo $this->formButton($element) ?></dd>
-        <?php elseif ($element instanceof Zend\Form\Element\Captcha): ?>
-            <dd><?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></dd>
-        <?php else: ?>
-            <dd><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></dd>
-        <?php endif */?>
         
 <?php echo $this->form()->closeTag() ?>
+
+
+<script type="text/javascript">
+
+//注册表单验证
+$(function(){
+
+		jQuery.validator.addMethod("lettersonly", function(value, element) {
+			return this.optional(element) || /^[^:%,'\*\"\s\<\>\&]+$/i.test(value);
+		}, "Letters only please");
+		jQuery.validator.addMethod("lettersmin", function(value, element) {
+			return this.optional(element) || ($.trim(value.replace(/[^\u0000-\u00ff]/g,"aa")).length>=3);
+		}, "Letters min please");
+		jQuery.validator.addMethod("lettersmax", function(value, element) {
+			return this.optional(element) || ($.trim(value.replace(/[^\u0000-\u00ff]/g,"aa")).length<=15);
+		}, "Letters max please");
+		jQuery.validator.addMethod('pwdchar', function(value, element) {
+//return /\d+/.test($(element).val()) && /[a-z]+/i.test($(element).val()) && /_+/.test($(element).val()) && /^\w+$/i.test($(element).val());
+return /\d+/.test($(element).val()) && /[a-z]+/i.test($(element).val()) && /^\w+$/i.test($(element).val());
+});
+
+    $("#register_form").validate({
+//         errorPlacement: function(error, element){
+//             element.parent('.input').find('span').append(error);
+//         },
+    	  errorClass:"mtip-error",
+          errorElement:"span",
+          errorPlacement: function(error, element){
+              var p;
+              if (element.is(":checkbox") || element.is(":radio") || element.is("input[type=file]")) {
+                  p = element.parent().parent();
+              }else{
+                  p = element.parent();
+              }
+              if(p.find("span").length > 0){
+                  p.find("span").remove();
+              }
+              error.appendTo(p);
+          },
+        onkeyup: false,
+        rules : {
+            username : {
+                required : true,
+                lettersmin : true,
+                lettersmax : true,
+                lettersonly : true
+            },
+            password : {
+                required : true,
+                pwdchar : true,
+                rangelength: [6, 20],
+            },
+            passwordVerify : {
+                required : true,
+                equalTo  : '#password'
+            },
+            email : {
+                required : true,
+                email    : true
+            },
+            realName : {
+                required : true
+            },
+            memberTelphone : {
+                digits : true,
+                minlength : 7
+            },
+            memberAddress : {
+                required : true
+            },
+			agree : {
+                required : true
+            },
+            memberPhone : {
+            	digits : true,
+            	minlength: 11,
+            	maxlength: 11,
+            },
+            memberQq : {
+            	required : true,
+            	digits : true
+            },
+            memberWebsite : {
+            	required : true,
+            	url:true,
+            },
+            'captcha[input]' : {
+            	required : true
+            }
+        },
+        messages : {
+        	username : {
+                required : '用户名不能为空',
+                lettersmin : '用户名必须在3-15个字符之间',
+                lettersmax : '用户名必须在3-15个字符之间',
+				lettersonly: '只能是中文、字母、数字、下划线'
+            },
+            password  : {
+                required : '密码不能为空',
+                pwdchar : '密码必须含有字母(必填)、数字(必填)、下划线(可选)',
+                rangelength: '密码长度应在6-20个字符之间',
+            },
+            passwordVerify : {
+                required : '请再次输入您的密码',
+                equalTo  : '两次输入的密码不一致'
+            },
+            email : {
+                required : '电子邮箱不能为空',
+                email    : '这不是一个有效的电子邮箱'
+            },
+            realName : {
+                required : '公司/个人名称不能为空'
+            },
+            memberTelphone : {
+                digits : '固定电话号码必须为数字',
+                minlength : '固定电话必须不小于7位数字',
+            },
+            memberAddress : {
+                required : '详细地址不能为空'
+            },
+			agree : {
+                required : '请阅读并同意该协议'
+            },
+            memberPhone : {
+            	digits : '手机号码必须为数字',
+                minlength : '手机号码必须位11位数字',
+                minlength : '手机号码必须位11位数字',
+            },
+            memberQq : {
+            	required : 'QQ不能为空',
+            	digits : 'QQ号码必须为数字'
+            },
+            memberWebsite : {
+            	required : '域名不能为空',
+            	url: '请输入正确格式的网址'
+            },
+            'captcha[input]' : {
+            	required : '验证码不能为空'
+            }
+        }
+    });
+});
+
+</script>

@@ -11,6 +11,9 @@ use ZfcUser\Options\UserControllerOptionsInterface;
 use Admin\Entity\ShopncCustomer;
 use Admin\Form\CustomerForm;
 use User\Filter\ShopncCustomerFilter;
+use User\Form\ProfileForm;
+use DoctrineORMModule\Form\Element\DoctrineEntity;
+use User\Filter\ProfileFilter;
 
 class UserController extends BaseController
 {
@@ -83,45 +86,101 @@ class UserController extends BaseController
         }
         return new ViewModel();
     }
-
+    
     /**
      * Login form
      */
     public function loginAction()
     {
         if ($this->zfcUserAuthentication()->hasIdentity()) {
-            return $this->redirect()->toRoute($this->getOptions()->getLoginRedirectRoute());
-        }
 
+            $type = $this->zfcUserAuthentication()->getIdentity()->getType();
+            if ($type != '1') {
+                $this->zfcUserAuthentication()->getAuthAdapter()->resetAdapters();
+                $this->zfcUserAuthentication()->getAuthAdapter()->logoutAdapters();
+                $this->zfcUserAuthentication()->getAuthService()->clearIdentity();
+            }else{
+                return $this->redirect()->toRoute($this->getOptions()->getLoginRedirectRoute());
+            }
+        }
+        
         $request = $this->getRequest();
         $form    = $this->getLoginForm();
-
+        
         if ($this->getOptions()->getUseRedirectParameterIfPresent() && $request->getQuery()->get('redirect')) {
             $redirect = $request->getQuery()->get('redirect');
         } else {
             $redirect = false;
         }
-
+        
         if (!$request->isPost()) {
             return array(
-                'loginForm' => $form,
-                'redirect'  => $redirect,
-                'enableRegistration' => $this->getOptions()->getEnableRegistration(),
+                    'loginForm' => $form,
+                    'redirect'  => $redirect,
+                    'enableRegistration' => $this->getOptions()->getEnableRegistration(),
             );
         }
         
         $form->setData($request->getPost());
-
+        
         if (!$form->isValid()) {
             $this->flashMessenger()->setNamespace('zfcuser-login-form')->addMessage($this->failedLoginMessage);
             return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN).($redirect ? '?redirect='. rawurlencode($redirect) : ''));
         }
-
+        
         // clear adapters
         $this->zfcUserAuthentication()->getAuthAdapter()->resetAdapters();
         $this->zfcUserAuthentication()->getAuthService()->clearIdentity();
 
-        return $this->forward()->dispatch(static::CONTROLLER_NAME, array('action' => 'authenticate'));
+        return $this->forward()->dispatch(static::CONTROLLER_NAME, array('action' => 'authenticate', 'm'=>'home'));
+    }
+    
+    /**
+     * Login form
+     */
+    public function adminloginAction()
+    {
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+                   
+            $type = $this->zfcUserAuthentication()->getIdentity()->getType();
+            if ($type != '2') {
+                $this->zfcUserAuthentication()->getAuthAdapter()->resetAdapters();
+                $this->zfcUserAuthentication()->getAuthAdapter()->logoutAdapters();
+                $this->zfcUserAuthentication()->getAuthService()->clearIdentity();
+            }else{
+                return $this->redirect()->toRoute($this->getOptions()->getLoginRedirectRoute());
+            }
+        }
+        
+        $request = $this->getRequest();
+        $form    = $this->getLoginForm();
+        
+        if ($this->getOptions()->getUseRedirectParameterIfPresent() && $request->getQuery()->get('redirect')) {
+            $redirect = $request->getQuery()->get('redirect');
+        } else {
+            $redirect = false;
+        }
+        
+        if (!$request->isPost()) {
+            return array(
+                    'loginForm' => $form,
+                    'redirect'  => $redirect,
+                    'enableRegistration' => $this->getOptions()->getEnableRegistration(),
+            );
+        }
+        
+        $form->setData($request->getPost());
+        
+        if (!$form->isValid()) {
+            $this->flashMessenger()->setNamespace('zfcuser-login-form')->addMessage($this->failedLoginMessage);
+            return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN).($redirect ? '?redirect='. rawurlencode($redirect) : ''));
+        }
+        
+        // clear adapters
+        $this->zfcUserAuthentication()->getAuthAdapter()->resetAdapters();
+        $this->zfcUserAuthentication()->getAuthService()->clearIdentity();
+
+        return $this->forward()->dispatch(static::CONTROLLER_NAME, array('action' => 'authenticate', 'm'=>'admin'));
     }
 
     /**
@@ -167,7 +226,20 @@ class UserController extends BaseController
                 ($redirect ? '?redirect='. rawurlencode($redirect) : '')
             );
         }
-
+        
+        // 更新customer表信息
+        $user = $this->zfcUserAuthentication()->getIdentity();
+        if ($user->getType() == '2') {
+            $user_id = $user->getId();
+            $customer = $this->getEntityManager()->getRepository('Admin\Entity\ShopncCustomer')->findOneBy(array('userId'=>$user_id));
+            $login_num = $customer->getMemberLoginNum();
+            $new_login_num = (int)$login_num+1;
+            $customer->setMemberLoginNum($new_login_num)
+                     ->setMemberLastLogin(time());
+            $this->getEntityManager()->persist($customer);
+            $this->getEntityManager()->flush();
+        }
+        
         $redirect = $this->redirectCallback;
 
         return $redirect();
@@ -212,7 +284,19 @@ class UserController extends BaseController
                 'redirect' => $redirect,
             );
         }
+        
+        if (empty($prg['memberTelphone']) && empty($prg['memberPhone'])) {
+            $form->setData($prg);
+            return array(
+                'empty_phone_number' => true,
+                'registerForm' => $form,
+                'enableRegistration' => $this->getOptions()->getEnableRegistration(),
+                'redirect' => $redirect,
+            );
+        }
+        
         $post = $prg;
+        
         $user = $service->register($post);
 
         $redirect = isset($prg['redirect']) ? $prg['redirect'] : null;
@@ -229,6 +313,7 @@ class UserController extends BaseController
         // 增加客户信息
         if (!empty($user)){
             try {
+                $time = time();
                 $customer = new ShopncCustomer();
                 $customer->setMemberEmail($post['email'])
                     ->setMemberName($post['username'])
@@ -239,6 +324,8 @@ class UserController extends BaseController
                     ->setMemberWebsite($post['memberWebsite'])
                     ->setMemberAddress($post['memberAddress'])
                     ->setUserId($user->getId())
+                    ->setMemberTime($time)
+                    ->setMemberLoginNum('0')
                 ;
                 $this->getEntityManager()->persist($customer);
                 $this->getEntityManager()->flush();
@@ -274,12 +361,54 @@ class UserController extends BaseController
         // TODO: Add the redirect parameter here...
         return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN) . ($redirect ? '?redirect='. rawurlencode($redirect) : ''));
     }
+    
+    public function editprofileAction()
+    {
+        if (!$this->zfcUserAuthentication()->hasIdentity()) {
+            return $this->redirect()->toRoute($this->getOptions()->getLoginRedirectRoute());
+        }
+        
+        $status = null;
+        $user_id = $this->zfcUserAuthentication()->getIdentity()->getId();
+        
+        $customer = $this->getEntityManager()->getRepository('Admin\Entity\ShopncCustomer')->findOneBy(array('userId'=>$user_id));
+        
+        $form = new ProfileForm($this->getEntityManager());
+
+        $form->setHydrator(new DoctrineEntity($this->getEntityManager(),'Admin\Entity\ShopncCustomer'));
+        $form->bind($customer);
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $inputFilter = new ProfileFilter();
+            $form->setInputFilter($inputFilter);
+            $form->setData($request->getPost());
+        
+            if ($form->isValid()) {
+                $em = $this->getEntityManager();
+        
+                $em->persist($customer);
+                $em->flush();
+        
+                $this->flashMessenger()->addSuccessMessage('Post Saved');
+        
+                return $this->redirect()->toRoute('post');
+            }
+        }
+        
+        return new ViewModel(array(
+                'post' => $post,
+                'form' => $form
+        ));
+        
+        return array('status' => $status);
+    }
 
     /**
      * Change the users password
      */
     public function changepasswordAction()
-    {        
+    {
         // if the user isn't logged in, we can't change password
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
             // redirect to the login redirect route

@@ -1,0 +1,123 @@
+<h3>修改用户信息</h3>
+<?php if ($status === true) : ?>
+<div class="alert alert-success"><?php echo $this->translate('Password changed successfully.');?></div>
+<?php elseif ($status === false) : ?>
+<div class="alert alert-error">修改用户信息失败, 请重试.</div>
+<?php endif; ?>
+<?php
+$form = $this->changePasswordForm;
+
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/changepassword'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'edit');
+
+$emailElement = $form->get('identity');
+$emailElement->setValue($this->zfcUserIdentity()->getUsername());
+
+echo $this->form()->openTag($form);
+
+?>
+
+<?php echo $this->formElementErrors($form->get('identity')); ?>
+<?php echo $this->formInput($form->get('identity')); ?>
+<table>
+  <tr>
+    <?php $e = $form->get('credential');?>
+    <td><?php echo $this->formLabel($e); ?></td>
+    <td>
+        <?php  echo $this->formInput($e);
+               echo $this->formElementErrors($e);
+        ?>
+    </td>
+  </tr>
+  <tr>
+    <?php $e = $form->get('newCredential');?>
+    <td><?php echo $this->formLabel($e); ?></td>
+    <td>
+        <?php  echo $this->formInput($e);
+               echo $this->formElementErrors($e);
+        ?>
+    </td>
+  </tr>
+  <tr>
+    <?php $e = $form->get('newCredentialVerify');?>
+    <td><?php echo $this->formLabel($e); ?></td>
+    <td>
+        <?php  echo $this->formInput($e);
+               echo $this->formElementErrors($e);
+        ?>
+    </td>
+  </tr>
+  <tr>
+    <?php $e = $form->get('submit');?>
+    <td></td>
+    <td>
+        <?php  echo $this->formInput($e);?>
+    </td>
+  </tr>
+</table>
+
+
+<?php echo $this->form()->closeTag(); ?>
+
+<script type="text/javascript">
+$(function(){
+
+jQuery.validator.addMethod('pwdchar', function(value, element) {
+//return /\d+/.test($(element).val()) && /[a-z]+/i.test($(element).val()) && /_+/.test($(element).val()) && /^\w+$/i.test($(element).val());
+return /\d+/.test($(element).val()) && /[a-z]+/i.test($(element).val()) && /^\w+$/i.test($(element).val());
+});
+    $("#edit").validate({
+    	  errorClass:"mtip-error",
+        errorElement:"span",
+        errorPlacement: function(error, element){
+            var p;
+            if (element.is(":checkbox") || element.is(":radio") || element.is("input[type=file]")) {
+                p = element.parent().parent();
+            }else{
+                p = element.parent();
+            }
+            if(p.find("span").length > 0){
+                p.find("span").remove();
+            }
+            error.appendTo(p);
+        },
+        onkeyup: false,
+        rules : {
+        	credential : {
+        		required : true
+        	},
+        	newCredential : {
+                required : true,
+                pwdchar : true,
+                minlength: 6,
+				maxlength: 20
+            },
+            newCredentialVerify : {
+                required : true,
+                equalTo  : '#new_pwd'
+            }
+          },
+         messages : {
+        	credential : {
+         		required : '原密码不能为空'
+         	},
+         	newCredential : {
+                required : '密码不能为空',
+                pwdchar : '密码必须含有字母(必填)、数字(必填)',
+                minlength: '密码长度应在6-20个字符之间',
+				maxlength: '密码长度应在6-20个字符之间'
+            },
+            newCredentialVerify : {
+                required : '请再次输入您的密码',
+                equalTo  : '两次输入的密码不一致'
+            }
+        },
+        success:function(label){
+            label.removeClass("mtip-error").addClass("mtip-right")
+        }
+    });
+
+});
+</script>

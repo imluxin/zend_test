@@ -25,5 +25,4 @@ class ConsultativeController extends BaseController
 
         return array('paginator' => $paginator);
     }
-    
 }

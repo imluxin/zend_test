@@ -18,25 +18,30 @@ class IndexController extends BaseController
     public function indexAction()
     {
         $em = $this->getEntityManager();
-//        $dql = 'SELECT u FROM Admin\Entity\ShopncWorker u WHERE u.workerName = 27583939';
-//        $query = $em->createQuery($dql);
-//        $users = $query->getResult();
         $model = new WorkerChartModel($em);
-        $test = $model->getWorkerTime('1');
-
-//        foreach($test as $key){
-//            \Doctrine\Common\Util\Debug::dump($key);
-//            echo '<br>';
-//        }
-
-
+        $test = $model->getTheCharts('1');
+        var_dump($test);
 
         return new ViewModel();
     }
 
-    private function _get()
+    /**
+     *员工欢迎页面
+     */
+    public function workerhubAction()
     {
 
     }
+
+    /**
+     *  server homepage
+     */
+    public function serverhubAction()
+    {
+
+    }
+
+
+
 
 }

@@ -51,7 +51,7 @@ return array(
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
         'enable_username' => true,
-//         'use_registration_form_captcha'        => true,
+        'use_registration_form_captcha'        => true,
         'auth_identity_fields' => array( 'username' ),
     ),
  
@@ -75,7 +75,11 @@ return array(
                 'type'        => 'phparray',
                 'base_dir'    => __DIR__ . '/../../../vendor/zendframework/zendframework/resources/languages/',
                 'pattern'     => '/%s/Zend_Validate.php',
-                'text_domain' => 'default'
+            ),
+            array(
+                'type'        => 'phparray',
+                'base_dir'    => __DIR__ . '/../../../vendor/zendframework/zendframework/resources/languages/',
+                'pattern'     => '/%s/Zend_Captcha.php',
             ),
             // zfcuser 验证消息
             array(
@@ -87,11 +91,22 @@ return array(
     ),
     'router' => array(
         'routes' => array(
+            'admin_login' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/admin/login',
+                    'defaults' => array(
+                        'controller' => 'zfcuser',
+                        'action'     => 'adminlogin',
+                    ),
+                ),
+            ),
             'zfcuser' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(
-                    'route' => '/user',
+                    'route' => '/home/user',
                     'defaults' => array(
                         'controller' => 'zfcuser',
                         'action'     => 'index',
@@ -146,6 +161,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'zfcuser',
                                 'action'     => 'changepassword',
+                            ),
+                        ),
+                    ),
+                    'editprofile' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/edit-profile',
+                            'defaults' => array(
+                                'controller' => 'zfcuser',
+                                'action'     => 'editprofile',
                             ),
                         ),
                     ),

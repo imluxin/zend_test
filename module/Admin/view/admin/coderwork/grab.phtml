@@ -1,0 +1,244 @@
+<style type="text/css">
+    #work_other_info {
+        margin-left: 40px;
+    }
+
+    #left_menu_box {
+        display: none;
+        position: fixed;
+
+    }
+</style>
+<!-- 左侧显示 -->
+<div class="span3" id="left_menu_box">
+    <div class="well">
+        <include file="Public:leftmenu"/>
+    </div>
+
+</div>
+
+<!-- 左侧显示结束 -->
+<div class="fix_left_menu">
+    <a id="left_menu_toggle" class="btn" href="javascript:;"><i class="icon-align-justify"></i></a>
+</div>
+<div class="span3" id="work_other_info">
+    <div class="well ">
+        <div class="row-fluid " style="">
+            <address>
+                <h4>奖励积分</h4>
+                <?= $this->escapeHtml($this->workinfo->getWorkPoints()) ?><br>
+            </address>
+            <address><h4>任务工期</h4>
+                <?= $this->workinfo->workTime ?>
+                <br>
+            </address>
+            <!-- <address >
+                <h4>任务延期扣分</h4>
+                {$work_info['type_points']}
+                <br>
+            </address> -->
+            <address><h4>优先级</h4>
+                <?php $pri = $this->workinfo->getWorkPriority();
+                switch ($pri) {
+                    case 0:
+                        echo "普通";
+                        break;
+                    case 1:
+                        echo "较急";
+                        break;
+                    case 2:
+                        echo "急";
+                        break;
+                    case 3:
+                        echo "加急";
+                        break;
+                    case 4:
+                        echo "马上解决";
+                        break;
+                    default:
+                        break;
+                }
+                ?>
+                <br>
+            </address>
+            <address><h4>任务开始时间</h4>
+                <?= $this->escapeHtml(date("Y-m-d H:i", $this->workinfo->getWorkStartTime())) ?>
+                <br>
+            </address>
+            <address>
+                <h4>任务结束时间</h4>
+                <?= $this->escapeHtml(date("Y-m-d H:i", $this->workinfo->getWorkEndTime())) ?>
+            </address>
+        </div>
+    </div>
+</div>
+<div class="span8">
+    <div class="page-header ">
+        <h3>
+            任务将在 <?= $this->escapeHtml(date("Y-m-d H:i:s", $this->workinfo->getWorkJointime())) ?> 结束
+            <?php
+            $work_status = $this->workinfo->getWorkStatus();
+            switch ($work_status) {
+                case '0':
+                    echo '<span class="label label-success">待处理</span>';
+                    break;
+                case '1':
+                    echo '<span class="label label-warning">处理中</span>';
+                    break;
+                case '2':
+                    echo '<span class="label label-important">已处理</span>';
+                    break;
+                case '3':
+                    echo '<span class="label label-info">已完成</span>';
+                    break;
+                case '4':
+                    echo '<span class="label label-inverse">已关闭</span>';
+                    break;
+            }
+            ?>
+            <?php if ($this->workstatus === "grabed") { ?>
+                <span class="label label-warning">已抢单</span>
+            <?php } else { ?>
+                <span class="label label-success">未抢单</span>
+            <?php } ?>
+        </h3>
+    </div>
+    <small><i class="icon-calendar"></i>
+        <?= $this->escapeHtml(date("Y-m-d H:i", $this->workinfo->getWorkCreateTime())) ?>
+    </small>
+    <small><i class="icon-user"></i>
+        <?= $this->escapeHtml($this->workinfo->getServerName()) ?>
+    </small>
+    <h4>标题</h4>
+
+    <p>
+        <?= $this->escapeHtml($this->workinfo->getWorkTitle()) ?>
+    </p>
+
+    <h4>内容</h4>
+    <textarea rows="4" class="row-fluid" disabled>
+
+        <?= $this->escapeHtml($this->workinfo->getWorkContent()) ?>
+    </textarea>
+    <h4>附件</h4>
+    <small>
+        <a target="_blank" href="__UPLOAD__{$work_info['worker_other']}">
+            {$work_info['work_app_name']}
+        </a>
+    </small>
+    <small class="muted">
+        ( {$work_info['work_app_size']} )
+    </small>
+    <?php if ($this->workstatus == "grab"): ?>
+        <!-- 抢单按钮 -->
+        <legend></legend>
+        <br>
+        <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">抢单</a>
+    <?php endif ?>
+
+    <?php if ($this->workstatus === "grabed"): ?>
+        <!-- 抢单信息 -->
+        <?php
+        if (isset($this->workgrab)) {
+            echo '<legend><h3>我的抢单信息</h3></legend><small><i class="icon-calendar"></i>';
+            echo $this->escapeHtml(date("Y-m-d H:i:s", $this->workgrab->getInsertTime()));
+            echo "</small><br><br><h4>抢单积分</h4><p>";
+            echo $this->escapeHtml($this->workgrab->getWorkPoints());
+            echo "</p><h4>抢单任务工期</h4><p>";
+            echo $this->escapeHtml($this->workgrab->getWorkDays());
+            echo "</p><h4>备注信息</h4><p>";
+            echo $this->escapeHtml($this->workgrab->getWorkOther());
+            echo "</p>";
+        }
+        ?>
+    <?php endif ?>
+</div>
+
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">填写抢单内容</h3>
+    </div>
+    <div class="modal-body">
+        <?php
+        $form = $this->form;
+        echo $this->form()->openTag($form);
+        ?>
+        <!-- <form id="form_grab" class="form-horizontal" action="{:U('Grab/grab')}" method="post"> -->
+        <div class="control-group">
+            <label class="control-label">设置任务奖励</label>
+
+            <div class="controls">
+                <?php echo $this->forminput($form->get('point')); ?>
+              
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">工作天数</label>
+
+            <div class="controls">
+                <?php echo $this->forminput($form->get('day')); ?>
+               
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">备注</label>
+
+            <div class="controls">
+                <?php echo $this->formTextarea($form->get('other')); ?>
+               
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-primary">确定</button>
+    </div>
+    <?php echo $this->form()->closeTag($form); ?>
+</div>
+<?php echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/jquery.validate.js')
+    ->prependFile($this->basePath() . '/js/worksCommon.js')
+?>
+<script type="text/javascript">
+    $("#form_grab").validate({
+        errorPlacement: function (error, element) {
+            if (element.is(':radio') || element.is(':checkbox')) {
+                var eid = element.attr('name');
+                error.appendTo(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+            error.insertAfter(element);
+
+        },
+        submitHandler: function (form) {
+            form.submit();
+        },
+        rules: {
+            point: {
+                required: true,
+                number: true,
+                min: 0
+            },
+            day: {
+                required: true,
+                digits: true
+            },
+        },
+        messages: {
+            point: {
+                required: "点数设置不能为空",
+                number: "需要一个正整数",
+                min: "不能为负数"
+
+            },
+            day: {
+                required: "天数不能设置为空",
+                digits: "不是有效的天数"
+            }
+
+        }
+    });
+</script>
